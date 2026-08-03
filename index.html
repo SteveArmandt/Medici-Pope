@@ -144,17 +144,7 @@ body{overflow:hidden;}
 .mripe{font-family:var(--disp); font-size:7.5px; letter-spacing:.14em; color:#8e2231; font-weight:700;}
 
 /* ---------- conclave slider ---------- */
-#qsliderwrap{max-width:340px; margin:6px auto 0;}
-#qslider{-webkit-appearance:none; appearance:none; width:100%; height:8px; border-radius:5px; outline:none;
-  background:linear-gradient(180deg,#cbb488,#dcc9a2); border:1px solid var(--gold2);
-  box-shadow:inset 0 1px 2px rgba(60,35,15,.35);}
-#qslider::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:22px; height:22px; border-radius:50%;
-  background:radial-gradient(circle at 38% 32%, #b03a4b, var(--crimson) 60%, #5a121e); border:2px solid #f0e2bd;
-  box-shadow:0 2px 5px rgba(60,10,15,.5); cursor:pointer;}
-#qslider::-moz-range-thumb{width:20px; height:20px; border-radius:50%;
-  background:radial-gradient(circle at 38% 32%, #b03a4b, var(--crimson) 60%, #5a121e); border:2px solid #f0e2bd;
-  box-shadow:0 2px 5px rgba(60,10,15,.5); cursor:pointer;}
-#qreadout{font-size:14px; color:var(--ink2); margin-top:7px; font-style:italic;}
+#qreadout{font-size:14px; color:var(--ink2); margin-top:9px; font-style:italic;}
 #qreadout b{color:var(--crimson); font-style:normal;}
 
 /* ---------- HUD layout ---------- */
@@ -421,24 +411,19 @@ body{overflow:hidden;}
       <button class="btn" data-n="3">3</button>
       <button class="btn" data-n="4" aria-pressed="true">4</button>
       <button class="btn" data-n="5">5</button>
-      <button class="btn" data-n="6">6</button>
     </div>
-    <div class="eyebrow" style="margin-top:14px">The Conclave</div>
-    <div id="qsliderwrap">
-      <input type="range" id="qslider" min="5" max="8" step="1" value="5">
-      <div id="qreadout">Conclave at <b>5</b> · the <b>7</b>th Cardinal forces the doors</div>
-    </div>
+    <div id="qreadout">The Conclave takes <b>6</b> Cardinals · the <b>8</b>th forces the doors</div>
     <div style="margin-top:16px"><button class="btn gold" id="begin" style="font-size:15px; padding:11px 26px;">Enter the Curia</button></div>
     <div class="hr"></div>
     <div class="rules">
       <b>YOU WANT THE THRONE</b>
-      <span>You are a Medici cardinal, and so is every rival at this table. Send your Bankers out to the great powers to raise florins. In the <b class="inl">full game</b> you must buy your own candidacy — <b class="inl">Influence</b>, your standing in the Curia, and the <b class="inl">Support</b> of Italian cities — at any time on your own turn. In the <b class="inl">base game</b> both are dealt to you at the start.</span>
+      <span>You are a Medici cardinal, and so is every rival at this table. Send your Bankers out to the great powers to raise florins. In the <b class="inl">full game</b> you must buy your own candidacy — <b class="inl">Influence</b>, your standing in the Curia, and the <b class="inl">Support</b> of Italian cities, 3ƒ apiece — at any time on your own turn. In the <b class="inl">base game</b> both are dealt to you at the start.</span>
       <b>HOW A POPE IS MADE</b>
       Florins also seat Cardinals in the cities, and Cardinals decide <i>which city</i> rules the Conclave. When a city holds a quorum, a completion may Call the Conclave there — and among every candidate holding that city's Support, the <b class="inl">highest Influence</b> is crowned Pope, caller or not.
       <b>WHAT YOU KNOW</b>
       You know which cities support you; rivals do not. Your own Influence card faces away from you — every rival can read it, and you cannot. Every seating is public: all Italy watches whose florins flow where.
       <b>THE ROADS</b>
-      <b class="inl">France</b> comes over the western Alps by the Via Francigena — 6 steps, 4ƒ, seats Genoa &amp; Milan at 2+n, and trades in Influence. <b class="inl">Spain</b> keeps the Aragonese watch, sailing out of the west and round the Regno's own Adriatic shore — 6 steps, 4ƒ, seats Naples &amp; Venice at 2+n, and reads the room. The <b class="inl">Holy Roman Empire</b> rides at anchor in the north Adriatic — 7 steps, 6ƒ, seats <i>anywhere</i> at 3+n, and moves the Cardinals themselves. <b class="inl">Rome</b> circles the Vatican in the Tyrrhenian: it pays nothing, but it seats a Cardinal anywhere free, it alone may Call the Conclave, and only a Banker on the Ring may spend on Patronage.
+      <b class="inl">France</b> comes over the western Alps by the Via Francigena — 6 steps, 4ƒ, seats Genoa &amp; Milan at 2+n, and trades in Influence. <b class="inl">Spain</b> keeps the Aragonese watch, sailing out of the west and round the Regno's own Adriatic shore — 6 steps, 4ƒ, seats Naples &amp; Venice at 2+n, and reads the room. The <b class="inl">Holy Roman Empire</b> rides at anchor in the north Adriatic — 7 steps, 6ƒ, seats <i>anywhere</i> at 3+n, and moves the Cardinals themselves. <b class="inl">Rome</b> circles the Vatican in the Tyrrhenian — 7 steps. It pays you <b>one florin for every city that has declared for you</b>, seats a Cardinal anywhere for a flat <b>4ƒ</b>, alone may Call the Conclave, and is the only place Patronage is sold.
       <b class="expo">THE MEDICI BANK</b>
       <span class="expo">The papal bank, where 3ƒ becomes 6ƒ in three turns — two bonds at a time, all of them public on the ledger, and none of them safe from Rome.</span>
     </div>
@@ -587,11 +572,14 @@ const SCHEMES = {
 };
 const PERMS = {
   exchange: { name:'Exchange House',    cost:4, tip:'+1ƒ on each of your completions.' },
-  letters:  { name:'Letters of Credit', cost:5, tip:'Your seatings cost 1ƒ less (floor 1ƒ).' },
+  letters:  { name:'Letters of Credit', cost:3, tip:'Your seatings cost 1ƒ less (floor 1ƒ).' },
   courier:  { name:'Courier Network',   cost:6, tip:'+1 movement point each turn.' },
-  vault:    { name:'Vault',             cost:4, tip:'Rome cannot touch your purse.' },
 };
-const CARD_COST = { influence:3, support:4 };
+const CARD_COST = { influence:3, support:3 };
+const ROME_SEAT_FEE = 4;                       // Rome seats a Cardinal anywhere for a flat fee
+/* the Conclave scales with the table — three cardinals need 5, four need 6, five need 7 */
+const QUORUM_FOR = { 3:5, 4:6, 5:7 };
+function quorumFor(n){ return QUORUM_FOR[n] || 6; }
 const CARDINAL_SUPPLY = 36;   // the physical box's worth of red hats
 
 /* the players are Medici cardinals — each would take a papal name */
@@ -626,7 +614,7 @@ const delay = ms => new Promise(r=>setTimeout(r, G && G.fast ? 0 : ms));
 function newGame(opts){
   const n = opts.players;
   G = {
-    mode: opts.mode, quorum: opts.quorum, force: opts.quorum+2,
+    mode: opts.mode, quorum: quorumFor(n), force: quorumFor(n)+2,
     turn:0, active:0, over:false, fast:opts.fast||false,
     terr: { genoa:[], milan:[], venice:[], naples:[] }, arrSeq:0, pending:[],
     cardinals: CARDINAL_SUPPLY,      // the box holds this many red hats; removals go back to it
@@ -666,7 +654,7 @@ function drawSupport(){
 
 /* ---------------- economy helpers ---------------- */
 function seatCost(p, path, t){
-  if (PATHS[path].base==='free') return 0;      // the Curia seats its own, and charges nothing
+  if (PATHS[path].base==='free') return ROME_SEAT_FEE;   // the Curia charges its flat fee
   const n = cardsIn(t);
   let c = Math.min(PATHS[path].base + n, 6);
   if (p.perms.includes('letters')) c -= 1;
@@ -827,7 +815,9 @@ async function completionSequence(p, path){
     if (got){ p.purse += got; UI.journal(`${p.name} calls in bonds from the Bank — ${got}ƒ home.`, p.human); }
   }
   // 2 — payout
-  const pay = P.pay + (P.pay ? (p.perms.includes('exchange') ? 1 : 0) : 0);
+  // Rome pays a florin for every city that has declared for you
+  const basePay = (path==='rome') ? p.supports.length : P.pay;
+  const pay = basePay + (basePay ? (p.perms.includes('exchange') ? 1 : 0) : 0);
   if (pay){ p.purse += pay; UI.journal(`${p.name} collects ${pay}ƒ.`, p.human); }
   UI.render();
   // 3 — seat a Cardinal
@@ -944,43 +934,10 @@ async function takeFavor(p, path){
   }
   if (path==='rome'){
     if (G.mode!=='full'){ UI.journal(`${p.name} walks the Curia and is owed nothing but goodwill.`, p.human); return; }
-    const act = p.human ? await UI.romeFavor(p) : AI.romeFavor(p);
-    if (act==='tithe'){
-      let take=0;
-      for (const r of rivalsOf(p)){ if (!r.perms.includes('vault') && r.purse>0){ r.purse--; take++; } }
-      p.purse += take;
-      UI.journal(`${p.name} levies a PAPAL TITHE — every rival pays a florin from their purse. ${take}ƒ collected.`, p.human);
-    }
-    if (act==='embezzle'){
-      let take=0, struck=0, lost=0;
-      for (const r of rivalsOf(p)){
-        if (r.perms.includes('vault')) continue;
-        const owed = r.bonds.length;                 // a florin for EVERY bond they hold
-        if (!owed) continue;
-        const paid = Math.min(owed, r.purse);        // pay from the purse first
-        r.purse -= paid; take += paid;
-        const short = owed - paid;                   // what the purse cannot cover, the ledger pays
-        if (short > 0){
-          // the damage spreads evenly — at most ONE step off any single bond
-          const order = r.bonds.map((v,i)=>({v,i})).sort((a,b)=>b.v-a.v || a.i-b.i);
-          const hit = order.slice(0, Math.min(short, order.length));
-          const drop = new Set();
-          for (const h of hit){
-            if (r.bonds[h.i] > 3) struck++;          // knocked back one rung
-            else { drop.add(h.i); lost++; }          // a bond at the lowest rung is forfeited outright
-            take++;                                  // the bank makes the Curia whole either way
-          }
-          r.bonds = r.bonds
-            .map((v,i)=> drop.has(i) ? null : (hit.some(h=>h.i===i) ? v-1 : v))
-            .filter(v=>v!=null);
-        }
-      }
-      p.purse += take;
-      const tail = struck||lost
-        ? ` Purses ran short: ${struck} bond${struck===1?'':'s'} knocked back a step apiece${lost?`, ${lost} forfeited outright`:''}.`
-        : '';
-      UI.journal(`${p.name} EMBEZZLES from the Bank — a florin for every bond held. ${take}ƒ collected.${tail}`, p.human);
-    }
+    let take=0;
+    for (const r of rivalsOf(p)){ if (r.purse>0){ r.purse--; take++; } }
+    p.purse += take;
+    UI.journal(`${p.name} levies the <b>PAPAL TITHE</b> — every rival pays a florin from their purse. ${take}ƒ collected.`, p.human);
   }
   UI.render();
 }
@@ -1093,7 +1050,75 @@ async function runGame(){
    ============================================================ */
 'use strict';
 
+/* Every number the rivals play by, in one place. A player may carry its own
+   `tune` object overriding any of these — the simulator uses that to pit
+   whole doctrines against one another. */
+const TUNE = {
+  infEarly:       false,   // buy Influence before the middle game?
+  supEarly:       false,   // buy Support before the middle game?
+  supWantMid:     2,
+  supWantLate:    3,
+  supChanceMid:   0.4,
+  supChanceLate:  0.85,
+  bondUntilRound: 10,
+  bondMax:        2,
+  bondFloorEarly: 4,
+  bondFloorLate:  5,
+  bondChanceEarly:0.95,
+  bondChanceLate: 0.8,
+  engineFirst:    true,    // holdings before schemes while the engine is being built
+  engineHold:     2,       // how many holdings count as "engine built"
+  engineChance:   0.9,
+  schemeChance:   0.6,
+  earlyRoad:      'hre',   // 'hre' | 'claim' | 'rome'
+  romeEarly:      true,    // detour to Rome early for Patronage
+  seatSkipEarly:  0.7,     // chance of declining a paid seat in the early game
+  seatOwnLate:    0.8,
+  callMargin:     0.5,     // how far above the perceived threat before Calling
+  smart:          true,    // weigh known Support intelligence; false = the old guesswork
+  forceCallRound: 12,
+};
 const AI = {
+  tune(p){ return (p && p.tune) ? p.tune : TUNE; },
+
+  /* ---- how far along the game is; almost every decision below turns on this ---- */
+  round(){ return Math.floor(G.turn / Math.max(1, G.players.length)); },
+  phase(){
+    const hi = Math.max(...terrList().map(cardsIn));
+    if (hi >= G.quorum-1) return 'late';
+    if (hi >= G.quorum-3 || this.round() >= 4) return 'mid';
+    return 'early';
+  },
+
+  /* suspicions do not reshuffle mid-turn: which rivals this cardinal "has a feeling about"
+     is drawn once per turn, so a Banker that walks the Ring to Call still means it at the door */
+  _hunchKey:null, _hunch:null,
+  hunches(p){
+    const key = p.id + ':' + G.turn;
+    if (this._hunchKey !== key){
+      this._hunchKey = key;
+      this._hunch = new Set(rivalsOf(p).filter(()=>Math.random()<0.25).map(r=>r.id));
+    }
+    return this._hunch;
+  },
+
+  /* the strongest rival Influence this cardinal BELIEVES backs city t.
+     Spain's peek is certainty (until the rival's hand changes and the note is torn up);
+     public seating money is inference; anything else is a per-turn hunch. */
+  threatIn(p, t, guessChance){
+    const smart = this.tune(p).smart !== false;
+    let threat = 0;
+    for (const r of rivalsOf(p)){
+      if (r.influence==null) continue;
+      const known = smart ? p.knownSupports[r.id] : undefined;
+      let counts;
+      if (known!==undefined) counts = known.includes(t);
+      else if (guessChance!==undefined) counts = investedIn(r,t)>0 || Math.random()<guessChance;
+      else counts = investedIn(r,t)>0 || this.hunches(p).has(r.id);
+      if (counts) threat = Math.max(threat, r.influence);
+    }
+    return threat;
+  },
 
   expectedOwnInfluence(p){
     if (p.influence==null) return 0;
@@ -1103,10 +1128,22 @@ const AI = {
     return unseen.length ? unseen.reduce((a,b)=>a+b,0)/unseen.length : 5;
   },
 
-  /* the city this cardinal most wants to decide the papacy */
+  /* the city this cardinal most wants to decide the papacy — the biggest of its cities,
+     unless a rival KNOWN to be stronger shares it, in which case the crown is theirs, not ours */
   targetCity(p){
-    let best=null;
-    for (const t of p.supports) if (!best || cardsIn(t)>cardsIn(best)) best=t;
+    if (!p.supports.length) return null;
+    if (this.tune(p).smart === false){
+      let best=null;
+      for (const t of p.supports) if (!best || cardsIn(t)>cardsIn(best)) best=t;
+      return best;
+    }
+    const mine = this.expectedOwnInfluence(p);
+    let best=null, bestScore=-Infinity;
+    for (const t of p.supports){
+      const beaten = mine && this.threatIn(p, t, 0) > mine;
+      const score = cardsIn(t) - (beaten ? 3 : 0);
+      if (score > bestScore){ bestScore=score; best=t; }
+    }
     return best;
   },
 
@@ -1118,6 +1155,25 @@ const AI = {
     if (p.supports.length===0) return CARD_COST.support;
     return null;
   },
+  /* a Conclave that is one or two seats away, in a city I believe I win, is worth
+     positioning for NOW — the Ring takes three turns to walk, so start before the
+     quorum lands, not after. Returns the city being prepared, or null. */
+  brewing(p){
+    if (this.tune(p).smart === false) return null;
+    if (!pathList().includes('rome') || G.mode!=='full') return null;
+    const mine = this.expectedOwnInfluence(p);
+    if (!mine) return null;
+    for (const t of p.supports){
+      const gap = G.quorum - cardsIn(t);
+      if (gap>=1 && gap<=2 && mine > this.threatIn(p, t, 0) + 0.5) return t;
+    }
+    return null;
+  },
+  /* a Banker standing one step short of completing the Ring, ready to finish and Call */
+  poised(p){
+    return p.bankers.some(b=>b.loc && b.loc.path==='rome' && b.loc.step>=PATHS.rome.steps-2);
+  },
+
   /* is there a Conclave standing that this cardinal would win? only Rome can call it */
   callWorthy(p){
     if (!G || G.over) return null;
@@ -1128,20 +1184,42 @@ const AI = {
   needsRome(p){
     if (!pathList().includes('rome')) return false;           // the base game has no Ring to walk to
     if (this.callWorthy(p)) return true;                      // the tiara is on the table
-    if (this.incomplete(p)) return false;          // cards are bought anywhere now — go earn first
-    if (!p.shopped && p.purse>=5) return true;     // holdings and schemes
-    return Math.random()<0.35;                     // otherwise, the free Cardinal is reason enough
+    if (p.supports.length >= 2 && Math.random()<0.55) return true;   // the Ring pays for breadth now
+    if (!p.shopped && p.purse>=5) return true;                // Patronage
+    return Math.random()<0.35;                                // otherwise, the free Cardinal is reason enough
   },
   /* the best earning road when what you need is money */
   earningPath(p){
+    if (p.purse <= 1) return 'hre';                    // destitute: take the road that pays most
     const t = this.targetCity(p);
-    if (t) return { genoa:'france', milan:'france', venice:'spain', naples:'spain' }[t];
-    return Math.random()<0.5 ? 'hre' : 'spain';
+    if (t && Math.random()<0.7) return { genoa:'france', milan:'france', venice:'spain', naples:'spain' }[t];
+    return Math.random()<0.6 ? 'hre' : (Math.random()<0.5 ? 'spain' : 'france');
   },
 
   preferredPath(p){
     if (pathList().includes('rome') && this.callWorthy(p)) return 'rome';  // nothing outranks a winnable Conclave
-    if (this.incomplete(p)) return this.earningPath(p);   // fund the candidacy first
+    const ph = this.phase(), T = this.tune(p);
+    if (ph==='early'){
+      const romeOpen = pathList().includes('rome');
+      if (romeOpen && T.romeEarly && !p.shopped && (p.purse>=5 || Math.random()<0.4)) return 'rome';
+      if (T.earlyRoad==='claim') return this.earningPath(p);
+      if (T.earlyRoad==='rome' && romeOpen) return 'rome';
+      return romeOpen && T.romeEarly && Math.random()<0.25 ? 'rome' : 'hre';
+    }
+    // an empty purse buys nothing at all — go and earn, whatever else the board is doing…
+    if (p.purse < 4 && (this.round() >= 8 || this.incomplete(p))){
+      // …unless the game has gone long and the cities have grown dear. A flat 4ƒ at Rome
+      // then undercuts every other road, and Rome pays for the cities that back you.
+      if (pathList().includes('rome') && ph==='late' && this.round() >= 10 && Math.random()<0.5) return 'rome';
+      return this.earningPath(p);
+    }
+    // a brewing Conclave sends the Banker to the Ring ahead of the moment
+    if (this.brewing(p) && !this.poised(p) && Math.random()<0.75) return 'rome';
+    // and a standing where a KNOWN stronger rival holds my crown sends me to France to fix it
+    if (this.tune(p).smart!==false && ph!=='early'){
+      const t0 = this.targetCity(p), mine0 = this.expectedOwnInfluence(p);
+      if (t0 && mine0 && this.threatIn(p, t0, 0) > mine0 && Math.random()<0.5) return 'france';
+    }
     if (this.needsRome(p) && !atRome(p)) return 'rome';
     if (p.style==='roman' && G.mode==='full'){
       const fatLedger = rivalsOf(p).some(r=>r.bonds.some(s=>s>=5));
@@ -1162,30 +1240,87 @@ const AI = {
   shopPick(p){
     const opts = marketOptions(p).filter(o=>o.ok);
     if (!opts.length) return null;
+    if (this.brewing(p) && p.purse < 10) return null;   // the plan's florins are spoken for
     const has = k => opts.some(o=>o.key===k);
-    if (p.style==='financier' && !p.perms.includes('letters') && has('letters') && Math.random()<0.6) return 'letters';
-    if (p.style==='balanced' && !p.perms.includes('exchange') && has('exchange') && Math.random()<0.6) return 'exchange';
-    for (const w of ['scandal','elevate','bribe','exchange','courier','vault','letters']) if (has(w) && Math.random()<0.5) return w;
+    const ph = this.phase();
+    // movement and income compound over the whole game; a scheme fires once
+    const engine = ['courier','exchange','letters'];
+    // …but a city running away with the board is worth the knife over any holding
+    const danger = terrList().some(t=>cardsIn(t)>=G.quorum-1 && !backs(p,t));
+    const T = this.tune(p);
+    if (danger){ for (const w of ['scandal','bribe','elevate']) if (has(w) && Math.random()<0.85) return w; }
+    if (this.round() >= 8){                       // late on, keep the purse for hats
+      for (const w of ['elevate','scandal','bribe']) if (has(w) && Math.random()<0.5) return w;
+      return null;
+    }
+    if (T.engineFirst && ph!=='late' && p.perms.length<T.engineHold){
+      for (const w of engine) if (!p.perms.includes(w) && has(w) && Math.random()<T.engineChance) return w;
+    }
+    for (const w of ['scandal','bribe','elevate']) if (has(w) && Math.random()<T.schemeChance) return w;
+    if (p.perms.length<3){
+      for (const w of engine) if (!p.perms.includes(w) && has(w) && Math.random()<0.5) return w;
+    }
+    for (const w of engine) if (!p.perms.includes(w) && has(w)) return w;
     return opts[0].key;
   },
 
-  /* Influence and Support: buy the moment you can afford them, wherever you stand */
+  /* The candidacy is bought late on purpose. An Influence card held from the first
+     turn is a card France can lift off you; Support bought early tells you nothing
+     about which city will matter. Florins spent early belong in the ledger instead. */
   async buyCards(p){
-    if (canBuyInfluence(p)){ await buyInfluence(p); await delay(180); }
-    if (p.supports.length===0 && canBuySupport(p)){ await buySupport(p); await delay(180); }
-    else if (!this.incomplete(p) && p.supports.length<3 && p.purse>=CARD_COST.support+4
-             && Math.random()<0.45 && canBuySupport(p)){ await buySupport(p); await delay(180); }
+    const ph = this.phase();
+    const T = this.tune(p);
+    if (canBuyInfluence(p) && (ph!=='early' || T.infEarly || p.purse>=10)){ await buyInfluence(p); await delay(180); }
+    if (ph==='early' && !T.supEarly) return;
+    if (p.supports.length===0 && canBuySupport(p)){ await buySupport(p); await delay(180); return; }
+    // a target city where a KNOWN stronger rival also stands is a crown for them, not you —
+    // hedge into another city while the florins are there
+    if (this.tune(p).smart !== false){
+      const t0 = this.targetCity(p), mine0 = this.expectedOwnInfluence(p);
+      if (t0 && mine0 && this.threatIn(p, t0, 0) > mine0 && p.supports.length<3
+          && p.purse>=CARD_COST.support+2 && Math.random()<0.8 && canBuySupport(p)){
+        await buySupport(p); await delay(180); return;
+      }
+    }
+    const want   = ph==='late' ? T.supWantLate : T.supWantMid;
+    const spare  = ph==='late' ? 1 : 5;
+    const chance = ph==='late' ? T.supChanceLate : T.supChanceMid;
+    if (p.supports.length && p.supports.length<want && p.purse>=CARD_COST.support+spare
+        && Math.random()<chance && canBuySupport(p)){ await buySupport(p); await delay(180); }
+  },
+
+  /* a city running away with the board is worth a scheme on your own turn */
+  async useSchemes(p){
+    if (!p.hand.length || G.over) return;
+    const t = this.targetCity(p);
+    const hostile = terrList().filter(x=>!backs(p,x) && cardsIn(x)>0)
+      .sort((a,b)=>this.dangerScore(p,b)-this.dangerScore(p,a))[0];
+    if (hostile && cardsIn(hostile) >= G.quorum-1){
+      for (const k of ['scandal','bribe']) if (p.hand.includes(k)){
+        await playScheme(p, k, {}); await delay(220); return;
+      }
+    }
+    if (t && p.hand.includes('elevate') && cardsIn(t)===G.quorum-1 && this.wantsCall(p,[t])){
+      await playScheme(p, 'elevate', {}); await delay(220);
+    }
   },
 
   async takeTurn(p){
     await this.buyCards(p);
+    await this.useSchemes(p);
     if (canTrade(p) && !p.shopped){
       const k = this.shopPick(p);
       if (k){ await buyAtRome(p, k); await delay(220); }
     }
-    if (G.mode==='full'){
-      const want = p.style==='financier' ? 2 : 1;
-      while (p.bonds.length<want && p.purse>=8 && Math.random()< (p.style==='financier'?0.9:0.3)){
+    const T = this.tune(p);
+    const plan = this.brewing(p);
+    if (G.mode==='full' && this.round() < T.bondUntilRound && !(plan && p.purse < 11)){
+      // a bond laid down early pays for itself twice over by the time the roads get rich
+      const ph = this.phase();
+      const floor  = ph==='early' ? T.bondFloorEarly : T.bondFloorLate;
+      const chance = ph==='early' ? T.bondChanceEarly
+                                  : (p.style==='financier' ? 0.95 : T.bondChanceLate);
+      while (p.bonds.length<T.bondMax && p.purse>=floor && Math.random()<chance){
         depositBond(p); await delay(180);
       }
     }
@@ -1208,6 +1343,20 @@ const AI = {
       if (path==='rome' && !calling && this.needsRome(p) && !atRome(p)) pick = moves[0];
       // a Banker with nothing left to buy — or a Conclave to call — should finish the Ring
       if (path==='rome' && (calling || p.shopped || !this.needsRome(p))) pick = moves[moves.length-1];
+      // …but a Banker positioned for a BREWING Conclave holds one step short: completing
+      // now would spend the Call before the city is ready. Two exceptions finish the walk:
+      // with the gap at 1 and 4ƒ in hand, the Ring's own seat closes the gap and the SAME
+      // completion Calls it; and a plan grown stale is abandoned rather than held forever.
+      if (path==='rome' && !calling && this.brewing(p)){
+        const bt = this.brewing(p);
+        const finishNow = (G.quorum - cardsIn(bt) === 1 && p.purse >= 4)
+                        || this.round() >= this.tune(p).forceCallRound;
+        if (!finishNow){
+          const held = moves.filter(m=>m.step < PATHS.rome.steps);
+          if (held.length) pick = held[held.length-1];
+          else { p.bankers[bi].done = true; continue; }   // already poised — hold position
+        }
+      }
       await moveBankerTo(p, bi, pick.path, pick.step);
       await delay(200);
       await this.buyCards(p);
@@ -1226,29 +1375,54 @@ const AI = {
   },
 
   wantsCall(p, callable){
+    // a game that has run this long needs a Pope more than it needs a safe Pope
+    if (this.round() >= this.tune(p).forceCallRound) for (const t of callable) if (backs(p,t) && p.influence!=null) return t;
+    const mine = this.expectedOwnInfluence(p);
+    if (!mine) return null;                      // no Influence card — you cannot be crowned
+    let best=null, bestMargin=-Infinity;
     for (const t of callable){
       if (!backs(p,t)) continue;
-      const mine = this.expectedOwnInfluence(p);
-      if (!mine) continue;                       // no Influence card — you cannot be crowned
-      let threat = 0;
-      for (const r of rivalsOf(p)){
-        if (r.influence==null) continue;
-        if (investedIn(r,t)>0 || Math.random()<0.25) threat = Math.max(threat, r.influence);
-      }
-      if (mine > threat + (p.style==='rush' ? -0.5 : 0.5)) return t;
+      const margin = mine - this.threatIn(p, t);
+      if (margin > bestMargin){ bestMargin=margin; best=t; }
     }
-    return null;
+    const need = p.style==='rush' ? -0.5 : this.tune(p).callMargin;
+    return (best && bestMargin > need) ? best : null;
   },
 
   pickSeat(p, path, opts){
-    // seating is pointless until you can actually be crowned — save the florins
     const need = this.nextPurchase(p);
     if (need!=null && p.purse < need + 3) return null;   // never seat yourself out of a candidacy
-    const t = this.targetCity(p);
+    if (!opts.length) return null;
+    const ph = this.phase(), T = this.tune(p);
+    const t  = this.targetCity(p);
+    // a board where nobody will pay for a hat never reaches a quorum — after a while,
+    // seat regardless, even if it only pushes a dead city toward forcing the doors
+    if (this.round() >= 9){
+      const mineNow = t && opts.find(o=>o.t===t);
+      if (mineNow) return mineNow.t;
+      opts.sort((x,y)=>x.cost-y.cost); return opts[0].t;
+    }
     const mine = t && opts.find(o=>o.t===t);
-    if (mine && Math.random()<0.85) return mine.t;
-    if (opts.length && Math.random()<0.5){ opts.sort((a,b)=>a.cost-b.cost); return opts[0].t; }
-    return mine ? mine.t : (opts.length ? opts[0].t : null);
+    // a poised Banker turns these last seats into a coronation: pay for them
+    if (this.tune(p).smart!==false && mine && this.poised(p)){
+      const gap = G.quorum - cardsIn(t);
+      const inf = this.expectedOwnInfluence(p);
+      if (gap>=1 && gap<=2 && inf && inf > this.threatIn(p,t,0) + 0.5) return mine.t;
+    }
+    // early on, florins belong in the ledger and at Patronage, not under a red hat
+    if (ph==='early' && Math.random()<T.seatSkipEarly) return null;
+    if (mine){
+      if (mine.cost<=3 || cardsIn(t)>=G.quorum-2) return mine.t;
+      return Math.random() < (ph==='late'?T.seatOwnLate:0.45) ? mine.t : null;
+    }
+    // paying to build someone else's city is rarely worth it — unless it forces the doors
+    const nearForce = opts.find(o=>cardsIn(o.t)>=G.force-1);
+    if (nearForce && !backs(p,nearForce.t)){
+      const believedEmpty = this.tune(p).smart===false || this.threatIn(p, nearForce.t, 0.5)===0;
+      if (believedEmpty && Math.random()<0.6) return nearForce.t;   // spoiler: burn it black
+    }
+    if (ph!=='early' && Math.random() < (ph==='late'?0.5:0.25)){ opts.sort((a,b)=>a.cost-b.cost); return opts[0].t; }
+    return null;
   },
 
   franceFavor(p){
@@ -1265,9 +1439,15 @@ const AI = {
     return 'peek';
   },
 
+  dangerScore(p, x){
+    const mine = this.expectedOwnInfluence(p);
+    const beaten = this.tune(p).smart!==false && mine && this.threatIn(p, x, 0) > mine;
+    return cardsIn(x) + (beaten ? 2.5 : 0);
+  },
   hreFavor(p){
     const t = this.targetCity(p);
-    const hostile = terrList().filter(x=>x!==t && cardsIn(x)>0).sort((a,b)=>cardsIn(b)-cardsIn(a));
+    const hostile = terrList().filter(x=>!backs(p,x) && cardsIn(x)>0)
+      .sort((a,b)=>this.dangerScore(p,b)-this.dangerScore(p,a));
     if (hostile.length && cardsIn(hostile[0])>=G.quorum-1) return {kind:'remove', t:hostile[0]};
     if (t && hostile.length && cardsIn(t)<G.force-1)
       return {kind:'move', from:hostile[0], idx:cardsIn(hostile[0])-1, to:t};
@@ -1285,8 +1465,12 @@ const AI = {
           && Math.random()<0.65) return {kind:'redraw', give:coldest};
     }
     const unknown = rivalsOf(p).filter(r=>!(r.id in p.knownSupports));
-    if (unknown.length && Math.random()<0.7)
-      return {kind:'peek', rival: unknown[Math.floor(Math.random()*unknown.length)].id};
+    if (unknown.length && Math.random()<0.7){
+      const pick = this.tune(p).smart !== false
+        ? unknown.slice().sort((a,b)=>(b.influence||0)-(a.influence||0))[0]  // read the danger first
+        : unknown[Math.floor(Math.random()*unknown.length)];
+      return {kind:'peek', rival: pick.id};
+    }
     const rich = rivalsOf(p).filter(r=>r.supports.length>0);
     if (rich.length && p.supports.length && Math.random()<0.5){
       const r = rich[Math.floor(Math.random()*rich.length)];
@@ -1298,24 +1482,12 @@ const AI = {
     return {kind:'peek', rival:r.id};
   },
 
-  romeFavor(p){
-    // take whichever yields more florins
-    let emb=0, tit=0;
-    for (const r of rivalsOf(p)){
-      if (r.perms.includes('vault')) continue;
-      emb += r.bonds.length;   // the ledger covers whatever the purse cannot
-      tit += Math.min(1, r.purse);
-    }
-    return emb > tit ? 'embezzle' : 'tithe';
-  },
-
   /* ------- reactions ------- */
   react(p, subject, isConclave, eligible){
     if (!isConclave) return null;
     if (backs(p,subject)){
       const mine = this.expectedOwnInfluence(p);
-      let bestRival=0;
-      for (const r of rivalsOf(p)) if (r.influence!=null && investedIn(r,subject)>0) bestRival=Math.max(bestRival, r.influence);
+      const bestRival = this.threatIn(p, subject, 0);
       if (mine && mine >= bestRival) return null;   // let it stand — you might be Pope
     }
     if (eligible.includes('scandal') && cardsIn(subject)>0){
@@ -1337,8 +1509,12 @@ const AI = {
     const t = this.targetCity(p);
     let best=null;
     for (const x of terrList()){
+      if (backs(p,x) || !cardsIn(x)) continue;       // never Scandal your own backers
+      if (!best || this.dangerScore(p,x)>this.dangerScore(p,best.t)) best={t:x, idx:cardsIn(x)-1};
+    }
+    if (!best) for (const x of terrList()){          // all four are yours — strike the smallest
       if (x===t || !cardsIn(x)) continue;
-      if (!best || cardsIn(x)>cardsIn(best.t)) best={t:x, idx:cardsIn(x)-1};
+      if (!best || cardsIn(x)<cardsIn(best.t)) best={t:x, idx:cardsIn(x)-1};
     }
     return best;
   },
@@ -1354,7 +1530,7 @@ const AI = {
       if (cardsIn(b.from)) return {from:b.from, idx:cardsIn(b.from)-1, to:b.to}; }
     const t = this.targetCity(p);
     let hot=null;
-    for (const x of terrList()) if (x!==t && cardsIn(x)>0 && (!hot||cardsIn(x)>cardsIn(hot))) hot=x;
+    for (const x of terrList()) if (!backs(p,x) && cardsIn(x)>0 && (!hot||this.dangerScore(p,x)>this.dangerScore(p,hot))) hot=x;
     if (hot && t) return {from:hot, idx:cardsIn(hot)-1, to:t};
     let cold=null;
     for (const x of terrList()) if (!cold || cardsIn(x)<cardsIn(cold)) cold=x;
@@ -1905,6 +2081,86 @@ const UI = {
       france:'read your own Influence, draw a new one, or swap with a rival',
       spain:'look at a rival’s Support, swap with a rival, or court a new city',
       hre:'move 1 Cardinal, or remove 1',
+      rome: G.mode==='full' ? 'the Papal Tithe — a florin from every rival' : 'nothing but goodwill',
+    };
+    return await this.choose('THE ROAD’S FAVOR', `The ${PATHS[path].name} road offers its favor.`,
+      [ {label:'Take the favor', sub:favors[path], value:true},
+        {label:'Decline', value:false} ]);
+  },
+  async franceFavor(p){
+    if (p.influence==null){
+      await this.choose('THE FRENCH COURT','You hold no Influence card — France has nothing to weigh.',[{label:'A pity', value:null}]);
+      return null;
+    }
+    const opts=[{label:'Read your own Influence', sub:'in private', value:'peek'},
+                {label:'Throw it back and draw again', sub:'the old card returns to the deck; the new one faces away — you will not see it', value:'redraw'}];
+    for (const r of rivalsOf(p)) if (r.influence!=null)
+      opts.push({label:`Swap Influence with ${r.name}`, sub:`you would receive the ${r.influence} you can see`, value:{swap:r.id}});
+    opts.push({label:'Decline', value:null});
+    return await this.choose('THE FRENCH COURT', 'France trades in standing.', opts);
+  },
+  async spainFavor(p){
+    const opts=[];
+    if (p.supports.length) opts.push({label:'Court a different city', sub:'release one of yours and draw another at random', value:{kind:'redrawPick'}});
+    for (const r of rivalsOf(p)) opts.push({label:`Look at ${r.name}’s Support`, sub:'in secret', value:{kind:'peek',rival:r.id}});
+    if (p.supports.length){
+      for (const r of rivalsOf(p)) if (r.supports.length)
+        opts.push({label:`Swap Support with ${r.name}`, sub:'you choose what to give; what you get is chance', value:{kind:'swapWith',rival:r.id}});
+    }
+    opts.push({label:'Decline', value:null});
+    const act = await this.choose('THE ADRIATIC WATCH', 'Spain’s captains read the room.', opts);
+    if (act && act.kind==='redrawPick'){
+      const give = await this.choose('WHICH CITY WILL YOU RELEASE?','You will draw a new one at random in its place.',
+        p.supports.map(t=>({label:TERRS[t].name, sub:`${cardsIn(t)} Cardinals there`, value:t}))
+          .concat([{label:'Cancel', value:null}]),
+        p.supports.map(t=>({t, value:t})));
+      return give ? {kind:'redraw', give} : null;
+    }
+    if (act && act.kind==='swapWith'){
+      const give = await this.choose('WHICH CITY WILL YOU GIVE UP?','Spain trades one loyalty for another.',
+        p.supports.map(t=>({label:TERRS[t].name, sub:`${cardsIn(t)} Cardinals there`, value:t}))
+          .concat([{label:'Cancel', value:null}]),
+        p.supports.map(t=>({t, value:t})));
+      if (!give) return null;
+      return {kind:'swap', rival:act.rival, give};
+    }
+    return act;
+  },
+
+  async cashBondsPrompt(p){
+    const total=p.bonds.reduce((a,b)=>a+b,0);
+    const ripe=p.bonds.filter(s=>s>=5);
+    return await this.choose('THE MEDICI BANK',
+      `Bonds on the ledger: ${p.bonds.map(s=>s+'ƒ').join(', ')}.`,
+      [ {label:'Cash everything', sub:`${total}ƒ home`, value:p.bonds.slice()},
+        ...(ripe.length && ripe.length<p.bonds.length ? [{label:'Cash only the ripe (5ƒ+)', sub:`${ripe.reduce((a,b)=>a+b,0)}ƒ`, value:ripe}] : []),
+        {label:'Let them ride', sub:'maturing — and raidable', value:[]} ]);
+  },
+  async callPrompt(p, path, callable){
+    const opts = callable.map(t=>({
+      label:`CALL THE CONCLAVE in ${TERRS[t].name}`,
+      sub:`${cardsIn(t)} Cardinals${backs(p,t)?' · they support you':' · they do NOT support you'}`,
+      value:t }));
+    opts.push({label:'Not yet', sub:'take Rome’s favor instead', value:null});
+    return await this.choose('A QUORUM STANDS',
+      (G.mode==='base' ? 'Any completion may summon a Conclave in the base game. It costs you this road’s favor.' : 'Only Rome may summon a Conclave. It costs you this road’s favor — the free Cardinal is already seated.') + ' Whoever holds that city’s Support with the highest Influence takes the tiara, caller or not.',
+      opts, callable.map(t=>({t, value:t})));
+  },
+  async seatPrompt(p, path, opts){
+    const o = opts.map(x=>({
+      label:`Seat in ${TERRS[x.t].name}`,
+      sub:`${x.cost? x.cost+'ƒ' : 'FREE'} · ${cardsIn(x.t)} there${backs(p,x.t)?' · supports you':''}`,
+      value:x.t }));
+    o.push({label:'Seat no one', sub:'keep your florins', value:null});
+    return await this.choose('SEAT A CARDINAL',
+      `${PATHS[path].name} may seat a Cardinal${path==='rome'?' — <b>the Curia charges nothing</b>':''}. Cardinals decide <i>which</i> city rules the Conclave.`,
+      o, opts.map(x=>({t:x.t, value:x.t})));
+  },
+  async favorPrompt(p, path){
+    const favors = {
+      france:'read your own Influence, draw a new one, or swap with a rival',
+      spain:'look at a rival’s Support, swap with a rival, or court a new city',
+      hre:'move 1 Cardinal, or remove 1',
       rome: G.mode==='full' ? 'Papal Tithe · Embezzle' : 'nothing but goodwill',
     };
     return await this.choose('THE ROAD’S FAVOR', `The ${PATHS[path].name} road offers its favor.`,
@@ -2172,20 +2428,20 @@ function fillOverlays(){
     <h4>THE YEAR</h4><p>The spring of <b>1512</b>. France holds Milan and Genoa; Spain holds Naples and stands with Venice in the Holy League against her; the Emperor watches the Adriatic from Trieste. In August the Spanish will storm Prato and hand Florence back to the Medici, and the family's own cardinal will ride with that army as papal legate. Julius II is failing. Within the year he will be dead and a Medici will wear the tiara — but in this game the See falls empty early, and which Medici it is has not been decided.</p>
     <h4>WHO YOU ARE</h4><p>You are a cardinal of the House of Medici, and so is every rival. All of you want the same thing: the throne of Saint Peter. You raise florins from the foreign powers. In the full game you buy the two things that make a pope — <b>Influence</b> (your standing in the Curia) and the <b>Support</b> of Italian cities; in the base game both are dealt to you before the first turn.</p>
     <h4>HOW A POPE IS MADE</h4><p>Cardinals seated in a city decide <i>which city</i> rules the Conclave. When one city holds a quorum, a Banker completing <b>the Vatican Ring</b> — and only the Ring — may Call the Conclave there, in place of Rome's favor. <i>In the base game (without the Bank), any completion may Call.</i> Every candidate holding that city's <b>Support</b> is in the running, and the <b>highest Influence</b> among them is crowned Pope — caller or not.</p>
-    <h4>BUYING YOUR CANDIDACY</h4><p><i>Full game only.</i> <b>Influence · 3ƒ</b> and <b>Support of a City · 4ƒ</b> may be bought <b>at any moment on your own turn</b>, wherever your Bankers stand. In the base game both are dealt to you before the first turn and cannot be bought or added to. Influence is one only, dealt 1–9 and set facing away: rivals read it, you cannot until you look. Support is drawn in secret; hold as many as you can afford, and all of them count.</p><h4>PATRONAGE</h4><p>Three schemes stand for sale — <b>Scandal 5ƒ</b> removes a Cardinal for good, <b>Elevate 6ƒ</b> raises a new one in any city, <b>Bribe 7ƒ</b> carries one from city to city — three of each for the whole game. In the <b>base game</b> any of them may be bought once per turn, wherever you stand. In the <b>full game</b> they, and the four holdings (Exchange House 4ƒ, Letters of Credit 5ƒ, Courier Network 6ƒ, Vault 4ƒ), are sold only while a Banker stands on the Vatican Ring, once per turn. Schemes are held in hand and played on your own turn, or into a reaction window when the Cardinals shift.</p>
+    <h4>BUYING YOUR CANDIDACY</h4><p><i>Full game only.</i> <b>Influence · 3ƒ</b> and <b>Support of a City · 3ƒ</b> may be bought <b>at any moment on your own turn</b>, wherever your Bankers stand. In the base game both are dealt to you before the first turn and cannot be bought or added to. Influence is one only, dealt 1–9 and set facing away: rivals read it, you cannot until you look. Support is drawn in secret; hold as many as you can afford, and all of them count.</p><h4>PATRONAGE</h4><p>Three schemes stand for sale — <b>Scandal 5ƒ</b> removes a Cardinal for good, <b>Elevate 6ƒ</b> raises a new one in any city, <b>Bribe 7ƒ</b> carries one from city to city — three of each for the whole game. In the <b>base game</b> any of them may be bought once per turn, wherever you stand. In the <b>full game</b> they, and the three holdings (Exchange House 4ƒ, Letters of Credit 3ƒ, Courier Network 6ƒ), are sold only while a Banker stands on the Vatican Ring, once per turn. Schemes are held in hand and played on your own turn, or into a reaction window when the Cardinals shift.</p>
     <h4>A TURN</h4><p>Your bonds mature a step (full game). You have 3 movement points (4 with the Courier). Click a Banker, then click any glowing step within reach — entering a road costs 1 point per step travelled, and both Bankers draw on the same 3 points. Reaching a road's end completes it at once, and that Banker then returns home for the turn. Buying, banking and playing schemes cost no movement.</p>
-    <h4>THE CONCLAVE</h4><p>The table sets the quorum before play — anywhere from <b>5</b> to <b>8</b> Cardinals in one city. A city standing at quorum may be Called. A city that reaches <b>quorum + 2</b> forces the doors at once, with no Call and no caller. Either way, before the ballots are read there is a <b>reaction window</b>: any candidate holding a scheme may play it — Scandal, Elevate or Bribe — and change the count while the Conclave is in the room. If the count then falls short, the Conclave fails and the doors reopen. If it holds but <i>no</i> candidate holds that city's Support, the ballots burn black: the city sheds Cardinals down to one below quorum, they return to the Curia's box, and play continues with the See still empty.</p>
+    <h4>THE CONCLAVE</h4><p>The quorum is set by the size of the table: <b>five</b> Cardinals for three players, <b>six</b> for four, <b>seven</b> for five. A city standing at quorum may be Called. A city that reaches <b>quorum + 2</b> forces the doors at once, with no Call and no caller. Either way, before the ballots are read there is a <b>reaction window</b>: any candidate holding a scheme may play it — Scandal, Elevate or Bribe — and change the count while the Conclave is in the room. If the count then falls short, the Conclave fails and the doors reopen. If it holds but <i>no</i> candidate holds that city's Support, the ballots burn black: the city sheds Cardinals down to one below quorum, they return to the Curia's box, and play continues with the See still empty.</p>
     <h4>THE CARDINALS</h4><p>The Curia keeps <b>36</b> Cardinals. Every seating and every Elevate takes one from the box; every removal, and every Conclave that disperses, sends one back. If the box ever runs dry, no more may be raised until some come home.</p>
     <h4>A COMPLETION</h4><p><b>1.</b> cash bonds · <b>2.</b> collect the payout · <b>3.</b> seat a Cardinal (paid) · <b>4.</b> take the road's favor. <i>At Rome only, you may forgo the favor to Call the Conclave in any city at quorum — the free Cardinal is yours either way. In the base game, any road may Call.</i></p>
-    <h4>THE ROADS AND THE RINGS</h4><p><b>France</b> comes over the western Alps and runs down the Tyrrhenian side — 6 steps, 4ƒ, seats Genoa &amp; Milan at 2+n. <b>Spain</b> keeps the Aragonese watch, sailing out of the west, round the toe and the heel, and ashore on the Regno's own Adriatic coast opposite Rome — 6 steps, 4ƒ, seats Naples &amp; Venice at 2+n. Those two are roads. The <b>Empire</b> and <b>Rome</b> are rings, standing off the two coasts, and a ring means the power reaches <i>every</i> city: the Empire at 3+n and pays 6ƒ, Rome seats <b>free</b> and pays nothing. Rome is the expansion — in the base game it is off the board altogether.</p>
-    <h4>THE FAVORS</h4><p><b>France</b> — read your own Influence, throw it back and draw a new one sight unseen, or swap with a rival. <b>Spain</b> — look at a rival's Support, swap Support with a rival, or release one of your cities and court another at random. <b>The Empire</b> — move 1 Cardinal, or remove 1. <b>Rome</b> — the Papal Tithe (every rival pays 1ƒ from their purse) or Embezzle (every rival pays 1ƒ <i>for each bond they hold</i>, so two bonds cost them two florins). A rival who cannot pay in coin pays from the ledger instead — the shortfall spreads evenly, one step off each bond (tallest first), never two off the same one, and a bond already at 3 is forfeited outright. The bank makes the Curia whole either way. The Vault refuses both.</p>
-    <h4>THE MEDICI BANK</h4><p>Deposit 3ƒ; the bond steps 3→4→5→6 at the start of each of your turns and cashes at any completion for its current value. <b>Two bonds at a time.</b> The ledger is public — every bond shows in the tracker beside the board. Rome's Embezzle takes a florin for <b>every bond a rival holds</b> — banking two at once doubles what they owe, and a rival too poor to pay loses bond steps instead, one step off each bond rather than two off any one of them. The Vault refuses both of Rome's demands.</p>`;
+    <h4>THE ROADS AND THE RINGS</h4><p><b>France</b> comes over the western Alps and runs down the Tyrrhenian side — 6 steps, 4ƒ, seats Genoa &amp; Milan at 2+n. <b>Spain</b> keeps the Aragonese watch, sailing out of the west, round the toe and the heel, and ashore on the Regno's own Adriatic coast opposite Rome — 6 steps, 4ƒ, seats Naples &amp; Venice at 2+n. Those two are roads. The <b>Empire</b> and <b>Rome</b> are rings, standing off the two coasts, and a ring means the power reaches <i>every</i> city: the Empire at 3+n and pays 6ƒ, Rome at a flat <b>4ƒ</b> and pays you <b>one florin for every city that has declared for you</b>. Rome is the expansion — in the base game it is off the board altogether.</p>
+    <h4>THE FAVORS</h4><p><b>France</b> — read your own Influence, throw it back and draw a new one sight unseen, or swap with a rival. <b>Spain</b> — look at a rival's Support, swap Support with a rival, or release one of your cities and court another at random. <b>The Empire</b> — move 1 Cardinal, or remove 1. <b>Rome</b> — the <b>Papal Tithe</b>: every rival pays you a florin from their purse. Rome's real choice is not which favour to take, but whether to take it at all or spend the completion Calling the Conclave.</p>
+    <h4>THE MEDICI BANK</h4><p>Deposit 3ƒ; the bond steps 3→4→5→6 at the start of each of your turns and cashes at any completion for its current value. <b>Two bonds at a time.</b> The ledger is public — every bond shows in the tracker beside the board. Nothing on the ledger is safe from time alone: a bond carried too long is a bond not spent.</p>`;
   $('#pathsbody').innerHTML = `
     <table><tr><th>Power</th><th>Steps</th><th>Pays</th><th>Seats</th><th>Favor</th></tr>
     <tr><td>France · the Via Francigena</td><td>6</td><td>4ƒ</td><td>Genoa &amp; Milan · 2+n</td><td>read own Influence / draw a new one / swap with a rival</td></tr>
     <tr><td>Spain · the Aragonese watch</td><td>6</td><td>4ƒ</td><td>Naples &amp; Venice · 2+n</td><td>look at a rival's Support / swap with a rival / court a new city</td></tr>
     <tr><td>The Holy Roman Empire</td><td>7</td><td>6ƒ</td><td>anywhere · 3+n</td><td>move 1 Cardinal / remove 1</td></tr>
-    <tr><td>Rome: the Vatican <i>(full game only)</i></td><td>7</td><td>—</td><td>anywhere · <b>free</b></td><td>Papal Tithe · Embezzle · <b>Call the Conclave</b></td></tr></table>
+    <tr><td>Rome: the Vatican <i>(full game only)</i></td><td>7</td><td><b>n</b>ƒ</td><td>anywhere · <b>4ƒ</b></td><td>Papal Tithe · <b>Call the Conclave</b></td></tr></table>
     <p style="margin-top:8px"><i>France and Spain are roads along the two coasts; the Empire and Rome ride at anchor as rings — a ring means the power reaches every city. Stand anywhere on the Vatican Ring to spend on Patronage; you need not finish it. In the base game Rome is off the board and Patronage is open to anyone on their own turn.</i></p>`;
 }
 function fillBanco(){
@@ -2209,12 +2465,13 @@ function fillBanco(){
     <h4>SCHEMES</h4>
     <table>${Object.entries(SCHEMES).map(([k,c])=>
       `<tr><td><b>${c.name}</b></td><td>${c.cost}ƒ</td><td>${c.tip}</td><td>${G.schemeSupply[k]} of ${SCHEMES[k].supply} left</td></tr>`).join('')}</table>
+    <p><i>Rome seats a Cardinal anywhere for a flat <b>4ƒ</b>, and pays you a florin for every city that has declared for you.</i></p>
     <p><i>A scheme goes to your hand. Play it on your own turn, or into the reaction window when the Cardinals shift in a city.</i></p>`;
 }
 
 /* ============ boot ============ */
 (function boot(){
-  const opts = { players:4, mode:'full', quorum:5 };
+  const opts = { players:4, mode:'full' };
   const wire = (sel, attr, fn)=>{
     const btns = Array.from(document.querySelectorAll(sel+' .btn'));
     const paint = chosen => btns.forEach(x=>{
@@ -2227,11 +2484,10 @@ function fillBanco(){
     if (init) paint(init.dataset[attr]);
   };
   wire('#mode','x', v=>opts.mode = v==='1'?'full':'base');
-  wire('#pcount','n', v=>opts.players=+v);
-  const qs = $('#qslider');
-  const qpaint = ()=>{ opts.quorum=+qs.value;
-    $('#qreadout').innerHTML = `Conclave at <b>${qs.value}</b> · the <b>${+qs.value+2}</b>th Cardinal forces the doors`; };
-  qs.addEventListener('input', qpaint); qpaint();
+  const showQuorum = n => { const q = quorumFor(n);
+    $('#qreadout').innerHTML = `The Conclave takes <b>${q}</b> Cardinals · the <b>${q+2}</b>th forces the doors`; };
+  wire('#pcount','n', v=>{ opts.players=+v; showQuorum(+v); });
+  showQuorum(opts.players);
   $('#begin').onclick = ()=>startGame(opts);
 
   $('#endturn').onclick = ()=>{ if(UI.turnResolver && !UI.busy){ const r=UI.turnResolver; UI.turnResolver=null; UI.selBanker=null; r(); } };
@@ -2289,7 +2545,7 @@ UI.restoreChrome = function(){
 window.MP = {
   start(o){
     o = o||{};
-    const opts = {players:o.players||4, mode:o.mode||'full', quorum:o.quorum||5, fast:!!o.fast};
+    const opts = {players:o.players||4, mode:o.mode||'full', fast:!!o.fast};
     $('#setup').style.display='none'; $('#game').style.display='block';
     newGame(opts);
     if (o.auto){ G.players[0].human=false; G.players[0].style='balanced'; }

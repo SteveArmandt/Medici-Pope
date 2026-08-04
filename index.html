@@ -426,7 +426,7 @@ body{overflow:hidden;}
       <b>THE GAME</b>
       As a Medici banker you will travel through France, Spain, the Holy Roman Empire, and Rome to collect money to support Giovanni de' Medici as Pope. Your rivals see how much <b class="inl">Influence</b> you have, and you see theirs — but you cannot see your own. Gather <b class="inl">Cardinals</b> in the cities where you find <b class="inl">Support</b>. When enough Cardinals have gathered, call a <b class="inl">Conclave</b> — and become the Pope's <b class="inl">Depositary General of the Papal Treasury</b>!
       <b>YOUR TURN — 3 MOVES</b>
-      Click a Banker, then a lit step: 1 move per step. Reach a road's end to complete it. Any time on your turn: <b class="inl">Influence 3ƒ</b> (one, faces away) · <b class="inl">Support 3ƒ</b> (any number, secret) · <b class="inl">Bond 3ƒ</b> (two at a time).
+      Click a Banker, then a lit step: 1 move per step. Reach a road's end to complete it. Any time on your turn: <b class="inl">Influence 3ƒ</b> (one, faces away) · <b class="inl">Support 3ƒ</b> (any number, secret — Rome pays 1ƒ per card) · <b class="inl">Bond 3ƒ</b> (two at a time).
       <b>A COMPLETION, IN ORDER</b>
       <b class="inl">1</b> cash any bonds · <b class="inl">2</b> collect the pay · <b class="inl">3</b> seat a Cardinal (optional, paid) · <b class="inl">4</b> take the favor — <i>or at Rome, Call the Conclave</i>.
       <b>THE CONCLAVE</b>
@@ -2426,9 +2426,10 @@ function fillOverlays(){
     <tr><td>France</td><td>6</td><td>4ƒ</td><td>Genoa &amp; Milan · 2+n</td><td>your first Influence free — or read, redraw, or swap it</td></tr>
     <tr><td>Spain</td><td>6</td><td>4ƒ</td><td>Naples &amp; Venice · 2+n</td><td>your first Support free — or peek, swap, or replace</td></tr>
     <tr><td>Holy Roman Empire</td><td>7</td><td>6ƒ</td><td>anywhere · 3+n</td><td>move or remove a Cardinal</td></tr>
-    <tr><td>Rome</td><td>7</td><td><b>1ƒ per Support you hold</b></td><td>anywhere · flat 4ƒ</td><td>Papal Tithe: 1ƒ from every rival — or the Call</td></tr>
+    <tr><td>Rome</td><td>7</td><td><b>1ƒ per Support CARD</b></td><td>anywhere · flat 4ƒ</td><td>Papal Tithe: 1ƒ from every rival — or the Call</td></tr>
     </table>
     <p class="small"><i>n = Cardinals already in the city; no seat ever costs more than 6ƒ. Stand anywhere on Rome's Ring to buy Patronage.</i></p>
+    <p class="small"><i><b>Rome pays one florin for every Support card you hold.</b></i></p>
     <h4>THE MEDICI BANK</h4><p>3ƒ in. The bond matures 4 → 5 → 6 at the start of your turns and cashes at any of your completions. Two at a time; every bond is public on the ledger.</p>
     <h4>PATRONAGE — ON THE RING, ONCE PER TURN</h4><p>Holdings: <b>Letters of Credit 3ƒ</b> your Cardinals cost 1ƒ less · <b>Exchange House 4ƒ</b> +1ƒ every completion · <b>Authority 5ƒ</b> +1 Influence, as often as you like · <b>Courier Network 6ƒ</b> +1 move every turn. Schemes, four of each: <b>Scandal 3ƒ</b> remove a Cardinal · <b>Elevate 4ƒ</b> raise one anywhere · <b>Bribe 5ƒ</b> carry one city to city. Schemes are played from hand — on your turn, or into the window that opens whenever Cardinals shift.</p>
     <h4>THE CONCLAVE</h4><p>Quorum is <b>5 / 6 / 7</b> Cardinals for 3 / 4 / 5 players; <b>two past quorum forces the doors</b>, no caller. Influence counts card plus Authority; <b>a tie goes to the higher card</b> — blood before gold. Before the ballots are read, schemes may strike. Count falls short — the Conclave fails. No player backs the city — the ballots burn black: it drops to one below quorum, and play goes on.</p>
@@ -2438,8 +2439,8 @@ function fillOverlays(){
     <tr><td>France · the Via Francigena</td><td>6</td><td>4ƒ</td><td>Genoa &amp; Milan · 2+n</td><td>your first Influence free — or read your own / draw anew / swap with a rival</td></tr>
     <tr><td>Spain · the Aragonese watch</td><td>6</td><td>4ƒ</td><td>Naples &amp; Venice · 2+n</td><td>your first Support free — or look at a rival's / swap / court a new city</td></tr>
     <tr><td>The Holy Roman Empire</td><td>7</td><td>6ƒ</td><td>anywhere · 3+n</td><td>move 1 Cardinal / remove 1</td></tr>
-    <tr><td>Rome: the Vatican <i>(full game only)</i></td><td>7</td><td><b>n</b>ƒ</td><td>anywhere · <b>4ƒ</b></td><td>Papal Tithe · <b>Call the Conclave</b></td></tr></table>
-    <p style="margin-top:8px"><i>France and Spain are roads; the Empire and Rome are rings, and a ring reaches every city. Rome pays one florin per Support you hold. Stand anywhere on the Ring to buy Patronage — you need not finish it.</i></p>`;
+    <tr><td>Rome: the Vatican <i>(full game only)</i></td><td>7</td><td><b>1ƒ per Support card</b></td><td>anywhere · <b>4ƒ</b></td><td>Papal Tithe · <b>Call the Conclave</b></td></tr></table>
+    <p style="margin-top:8px"><i>France and Spain are roads; the Empire and Rome are rings, and a ring reaches every city. Rome pays one florin for every Support <b>card</b> you hold. Stand anywhere on the Ring to buy Patronage — you need not finish it.</i></p>`;
 }
 function fillBanco(){
   const p=you(), full = G.mode==='full';

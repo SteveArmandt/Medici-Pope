@@ -431,10 +431,10 @@ body{overflow:hidden;}
     </div>
     <p class="ask">You and your rivals run Medici Banks.<br>Can you rally support of the Cardinals to elect <i>Giovanni de' Medici</i> as Pope?</p>
     <div class="optrow" id="mode">
-      <span class="modeopt"><span class="eyebrow">without the Bank</span>
+      <span class="modeopt"><span class="eyebrow">the base game</span>
         <button class="btn" data-x="0">The Conclave</button></span>
-      <span class="modeopt"><span class="eyebrow">with the Medici Bank</span>
-        <button class="btn" data-x="1" aria-pressed="true">The Roman Ledger</button></span>
+      <span class="modeopt"><span class="eyebrow">the full game</span>
+        <button class="btn" data-x="1" aria-pressed="true">The Medici Bank</button></span>
     </div>
     <div class="eyebrow" style="margin-top:14px">Banks at the table (you + rivals)</div>
     <div class="optrow" id="pcount">
@@ -537,7 +537,7 @@ body{overflow:hidden;}
     <b class="mplabel">THE GAME</b>
     <div class="optrow" id="rcmode">
       <button class="btn" data-mode="base">The Conclave</button>
-      <button class="btn sel" data-mode="full" aria-pressed="true">The Roman Ledger</button>
+      <button class="btn sel" data-mode="full" aria-pressed="true">The Medici Bank</button>
     </div>
     <b class="mplabel">BANKS AT THE TABLE</b>
     <div class="optrow" id="rcseats">
@@ -1999,7 +1999,7 @@ function lobbyModel(){
 }
 function renderLobby(model){
   $('#lbcode').textContent = NET.code || '—';
-  $('#lbcfg').textContent = `${model.cfg.mode==='full'?'The Roman Ledger':'The Conclave'} · ${model.cfg.n} banks`;
+  $('#lbcfg').textContent = `${model.cfg.mode==='full'?'The Medici Bank':'The Conclave'} · ${model.cfg.n} banks`;
   const box = $('#lbseats'); box.innerHTML='';
   model.seats.forEach(s=>{
     const d = document.createElement('div');
@@ -2773,7 +2773,7 @@ const UI = {
     shopBtn.textContent = p.shopped ? 'Patronage · used' : 'Patronage';
     shopBtn.title = canTrade(p)
       ? (p.shopped ? 'You have already spent on Patronage this turn.' : (G.mode==='full' ? 'Holdings and schemes.' : 'Schemes.'))
-      : 'A Banker must stand on the Vatican Ring before you can spend on Patronage.';
+      : 'A Banker must stand on the Vatican road before you can spend on Patronage.';
     $('#bondbtn').style.display = G.mode==='full'?'block':'none';
     $('#bondbtn').disabled = !myTurn || this.busy || p.bonds.length>=2 || p.purse<3;
     $('#bondbtn').textContent = `Bond · 3ƒ (${p.bonds.length}/2)`;
@@ -2868,7 +2868,7 @@ const UI = {
     opts.push({label:'Buy nothing', value:null});
     return await this.choose('PATRONAGE',
       G.mode==='full'
-        ? `You hold ${p.purse}ƒ. Holdings and schemes — one purchase per turn, and only while a Banker stands on the Ring.`
+        ? `You hold ${p.purse}ƒ. Holdings and schemes — one purchase per turn, and only while a Banker stands on Rome's road.`
         : `You hold ${p.purse}ƒ. Schemes — one purchase per turn, wherever your Bankers stand.`, opts);
   },
   async hreFavor(p){
@@ -3076,28 +3076,28 @@ function fillOverlays(){
     <tr><td>Holy Roman Empire</td><td>7</td><td>6ƒ</td><td>anywhere · 3+n</td><td>move or remove a Cardinal</td></tr>
     <tr><td>Rome</td><td>7</td><td><b>1ƒ per Support CARD</b></td><td>anywhere · flat 4ƒ</td><td>Papal Tithe: 1ƒ from every rival — or the Call</td></tr>
     </table>
-    <p class="small"><i>n = Cardinals already in the city; no seat ever costs more than 6ƒ. Stand anywhere on Rome's Ring to buy Patronage.</i></p>
+    <p class="small"><i>n = Cardinals already in the city; no seat ever costs more than 6ƒ. Stand anywhere on Rome's road to buy Patronage.</i></p>
     <p class="small"><i><b>Rome pays one florin for every Support card you hold.</b></i></p>
     <h4>THE MEDICI BANK</h4><p>3ƒ in. The bond matures 4 → 5 → 6 at the start of your turns and cashes at any of your completions. Two at a time; every bond is public on the ledger.</p>
-    <h4>PATRONAGE — ON THE RING, ONCE PER TURN</h4><p>Holdings: <b>Letters of Credit 3ƒ</b> your Cardinals cost 1ƒ less · <b>Exchange House 4ƒ</b> +1ƒ every completion · <b>Authority 5ƒ</b> +1 Influence, as often as you like · <b>Courier Network 6ƒ</b> +1 move every turn. Schemes, four of each: <b>Scandal 3ƒ</b> remove a Cardinal · <b>Elevate 4ƒ</b> raise one anywhere · <b>Bribe 5ƒ</b> carry one city to city. Schemes are played from hand — on your turn, or into the window that opens whenever Cardinals shift.</p>
+    <h4>PATRONAGE — ON ROME'S ROAD, ONCE PER TURN</h4><p>Holdings: <b>Letters of Credit 3ƒ</b> your Cardinals cost 1ƒ less · <b>Exchange House 4ƒ</b> +1ƒ every completion · <b>Authority 5ƒ</b> +1 Influence, as often as you like · <b>Courier Network 6ƒ</b> +1 move every turn. Schemes, four of each: <b>Scandal 3ƒ</b> remove a Cardinal · <b>Elevate 4ƒ</b> raise one anywhere · <b>Bribe 5ƒ</b> carry one city to city. Schemes are played from hand — on your turn, or into the window that opens whenever Cardinals shift.</p>
     <h4>THE CONCLAVE</h4><p>Quorum is <b>5 / 6 / 7</b> Cardinals for 3 / 4 / 5 players; <b>two past quorum forces the doors</b>, no caller. Influence counts card plus Authority; <b>a tie goes to the higher card</b> — blood before gold. Before the ballots are read, schemes may strike. Count falls short — the Conclave fails. No player backs the city — the ballots burn black: it drops to one below quorum, and play goes on.</p>
     <h4>PLAYING WITH FRIENDS</h4><p>One player <b>creates a room</b> and reads out the five-letter code; the others <b>join</b> with it. Seats nobody claims are played by the House. Everything hidden stays hidden — your rivals' Support and schemes never reach your machine at all. Lose your connection and the House holds your seat until you return; <b>Rejoin</b> walks you back into the same chair with your florins intact.</p>
-    <h4>THE TWO GAMES</h4><p><b>The Conclave</b> (base): no Rome, no Bank. Influence and one Support are dealt; schemes sell anywhere; any road may Call. <b>The Roman Ledger</b> (full): everything above.</p>`;
+    <h4>THE TWO GAMES</h4><p><b>The Conclave</b> (base): no Rome, no Bank. Influence and one Support are dealt; schemes sell anywhere; any road may Call. <b>The Medici Bank</b> (full): everything above.</p>`;
   $('#pathsbody').innerHTML = `
     <table><tr><th>Power</th><th>Steps</th><th>Pays</th><th>Seats</th><th>Favor</th></tr>
     <tr><td>France · the Via Francigena</td><td>6</td><td>4ƒ</td><td>Genoa &amp; Milan · 2+n</td><td>your first Influence free — or read your own / draw anew / swap with a rival</td></tr>
     <tr><td>Spain · the Aragonese watch</td><td>6</td><td>4ƒ</td><td>Naples &amp; Venice · 2+n</td><td>your first Support free — or look at a rival's / swap / court a new city</td></tr>
     <tr><td>The Holy Roman Empire</td><td>7</td><td>6ƒ</td><td>anywhere · 3+n</td><td>move 1 Cardinal / remove 1</td></tr>
-    <tr><td>Rome: the Vatican <i>(full game only)</i></td><td>7</td><td><b>1ƒ per Support card</b></td><td>anywhere · <b>4ƒ</b></td><td>Papal Tithe · <b>Call the Conclave</b></td></tr></table>
-    <p style="margin-top:8px"><i>France and Spain are roads; the Empire and Rome are rings, and a ring reaches every city. Rome pays one florin for every Support <b>card</b> you hold. Stand anywhere on the Ring to buy Patronage — you need not finish it.</i></p>`;
+    <tr><td>Rome: the Vatican road <i>(full game only)</i></td><td>7</td><td><b>1ƒ per Support card</b></td><td>anywhere · <b>4ƒ</b></td><td>Papal Tithe · <b>Call the Conclave</b></td></tr></table>
+    <p style="margin-top:8px"><i>France and Spain run down the peninsula; the Empire and Rome stand off the coast, and each of those two reaches every city. Rome pays one florin for every Support <b>card</b> you hold. Stand anywhere on Rome's road to buy Patronage — you need not finish it.</i></p>`;
 }
 function fillBanco(){
   const p=you(), full = G.mode==='full';
   const gate = full
-    ? `<p><i>Sold only while one of your Bankers stands on the Vatican Ring, one purchase per turn.</i></p>
+    ? `<p><i>Sold only while one of your Bankers stands on the Vatican road, one purchase per turn.</i></p>
        <p><i>Holdings remain with a player throughout gameplay.</i></p>
        <p><i>Schemes may be used on your turn, or whenever Cardinals are seated / moved / removed.</i></p>`
-    : `<p><i>Sold to anyone on their own turn, one purchase per turn. Rome is off the board in the base game, so there is no Ring to reach and no holdings to buy.</i></p>
+    : `<p><i>Sold to anyone on their own turn, one purchase per turn. Rome is off the board in the base game, so there is no Roman road to reach and no holdings to buy.</i></p>
        <p><i>Schemes may be used on your turn, or whenever Cardinals are seated / moved / removed.</i></p>`;
   const cand = full
     ? `<h4>YOUR CANDIDACY — ANY TIME ON YOUR TURN</h4>
@@ -3159,7 +3159,7 @@ function fillBanco(){
   $('#shopbtn').onclick = async ()=>{
     const p=you();
     if (!NET.myTurn() || UI.busy) return;
-    if (!canTrade(p)){ UI.toast('Send a Banker to the Vatican Ring before you spend on Patronage.'); return; }
+    if (!canTrade(p)){ UI.toast('Send a Banker to the Vatican road before you spend on Patronage.'); return; }
     if (p.shopped){ UI.toast('You have already spent on Patronage this turn.'); return; }
     UI.busy=true;
     const k = await UI.marketPrompt(p);

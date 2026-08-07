@@ -87,7 +87,9 @@ body{overflow:hidden;}
   border-radius:3px; color:#f4ead2; border:1px solid rgba(0,0,0,.4); box-shadow:0 1px 3px rgba(0,0,0,.4), inset 0 0 0 1px rgba(255,255,255,.12);}
 .ask{font-style:italic; color:var(--ink2); margin:14px 0 4px; font-size:15.5px;}
 .optrow{display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin:8px 0 4px;}
-.modeopt{display:flex; flex-direction:column; gap:5px; align-items:center;}
+.modeopt{display:flex; flex-direction:column; gap:5px; align-items:stretch;}
+.modeopt .btn{width:100%;}
+.btn.tutlink{font-size:11px; letter-spacing:.13em; padding:6px 10px; opacity:.9;}
 .rules{max-width:560px; margin:0 auto; text-align:left; font-size:14.5px; line-height:1.5; color:var(--ink2);}
 .rules b{display:block; font-family:var(--disp); font-size:10px; letter-spacing:.16em; color:var(--crimson); margin:13px 0 3px;}
 .rules b.inl{display:inline; font-family:var(--serif); font-size:13.5px; letter-spacing:0; color:#3a2812; font-weight:600;}
@@ -158,6 +160,43 @@ body{overflow:hidden;}
 .beginnote{font-family:var(--serif); font-style:italic; font-size:13px; color:#f0e2bd;
   background:rgba(38,13,22,.72); border-radius:4px; padding:3px 12px; text-shadow:0 1px 2px rgba(0,0,0,.7);}
 
+/* ---------- tutorial: spotlight, ring, caption ---------- */
+#tutmask{position:fixed; inset:0; z-index:70; display:none; pointer-events:none;}
+#tutmask .shade{position:absolute; background:rgba(20,8,12,.72); transition:all .22s ease;}
+#tutmask .ring{position:absolute; border:2px solid var(--gold); border-radius:7px;
+  animation:tutring 1.2s ease-in-out infinite; box-shadow:0 0 14px rgba(217,180,84,.55);}
+@keyframes tutring{ 0%,100%{opacity:1} 50%{opacity:.45} }
+/* fixed-position UI cannot always be cut out of the shade: lift it instead */
+.tut-raise{z-index:71 !important; animation:tutglow 1.2s ease-in-out infinite;}
+@keyframes tutglow{ 0%,100%{filter:drop-shadow(0 0 7px rgba(217,180,84,.9))}
+                    50%{filter:drop-shadow(0 0 14px rgba(217,180,84,.5))} }
+.banktok.tutlit{box-shadow:0 0 0 2px var(--gold), 0 0 15px rgba(217,180,84,.75);
+  animation:tutring 1.2s ease-in-out infinite;}
+@media (prefers-reduced-motion:reduce){ #tutmask .ring, .tut-raise, .banktok.tutlit{animation:none;} }
+#tutbubble{position:fixed; z-index:72; width:min(340px,86vw); padding:15px 17px; display:none;}
+#tutbubble .teyebrow{font-family:var(--disp); font-size:9.5px; letter-spacing:.2em;
+  text-transform:uppercase; color:var(--crimson); margin-bottom:4px;}
+#tutbubble h3{font-family:var(--disp); font-weight:700; font-size:15.5px; letter-spacing:.02em;
+  margin-bottom:6px; color:var(--ink);}
+#tutbubble #tuttext{font-size:14px; line-height:1.5; color:var(--ink);}
+#tutbubble #tuttext p{margin-bottom:6px;}
+#tutbubble #tuttext ul{margin:4px 0 6px 14px;}
+#tutbubble #tuttext li{margin-bottom:3px;}
+#tutbubble .trow{display:flex; align-items:center; justify-content:space-between; gap:10px;
+  margin-top:11px; border-top:1px solid rgba(168,132,47,.3); padding-top:9px;}
+#tutbubble .tstep{font-size:11px; color:var(--ink2); font-family:var(--disp); letter-spacing:.08em;}
+#tutbubble .tbtns{display:flex; gap:6px;}
+#tutbubble .btn{padding:6px 12px; font-size:12px;}
+#tutbubble .trow.bare{display:none;}
+#tutmin{padding:6px 10px; line-height:1;}
+#tutpeek{position:fixed; z-index:71; display:none; left:10px; top:50%; transform:translateY(-50%);
+  font-family:var(--disp); font-size:11px; letter-spacing:.1em; cursor:pointer;
+  background:linear-gradient(180deg,#f4e8ca,#e2d2ab); color:#3a2812;
+  border:1px solid var(--gold2); border-radius:5px; padding:8px 11px;}
+#tutcontinue{position:fixed; z-index:69; left:12px; bottom:118px; display:none;
+  flex-direction:column; gap:8px; align-items:flex-start; padding:11px 13px; max-width:230px;}
+#tutcontinue span{font-family:var(--serif); font-size:12.5px; color:var(--ink); line-height:1.35;}
+
 /* ---------- the room: create · join · gather ---------- */
 .mproom{display:none; position:fixed; left:50%; top:50%; transform:translate(-50%,-50%);
   z-index:70; width:min(420px,92vw); max-height:88vh; overflow:auto;}
@@ -222,6 +261,7 @@ body{overflow:hidden;}
 .inf{font-family:var(--disp); font-weight:700; font-size:13px; color:#3a2812; width:30px; text-align:center;
   background:rgba(255,248,224,.7); border:1px solid var(--gold2); border-radius:3px; padding:1px 0;}
 .inf.hid{color:#8a6f4a; border-style:dashed;}
+.inf.read{color:#8e2231; border-style:solid; border-color:rgba(142,34,49,.55);}
 .inf.none{color:#a8926e; border-style:dotted; background:transparent;}
 .auth{font-family:var(--disp); font-weight:700; font-size:11px; color:var(--gold2); margin-left:2px;}
 #terrpanel{flex:none;}
@@ -290,13 +330,14 @@ body{overflow:hidden;}
 
 /* ---------- reveal / end ---------- */
 #reveal{position:fixed; inset:0; z-index:40; display:none; align-items:center; justify-content:center; background:rgba(8,4,2,.8);}
-#reveal .panel{max-width:640px; width:92%; padding:32px 36px; text-align:center; max-height:90vh; overflow:auto;}
+#reveal .panel{max-width:640px; width:92%; padding:24px 32px; text-align:center;
+  max-height:92vh; overflow-y:auto; overscroll-behavior:contain; position:relative; z-index:1;}
 #revabove{font-family:var(--disp); font-size:12px; letter-spacing:.18em; text-transform:uppercase;
   color:var(--ink2); margin-bottom:2px;}
 #revabove b{color:#8a6a1f; letter-spacing:.22em;}
-#revtitle{font-family:'Cinzel Decorative',var(--disp); font-weight:900; font-size:34px; color:var(--crimson);
+#revtitle{font-family:'Cinzel Decorative',var(--disp); font-weight:900; font-size:30px; color:var(--crimson);
   text-shadow:0 1px 0 rgba(255,250,235,.6), 0 3px 16px rgba(109,26,38,.3);}
-#revsub{font-style:italic; color:var(--ink2); margin:8px 0 14px;}
+#revsub{font-style:italic; color:var(--ink2); margin:7px 0 12px; font-size:13.5px; line-height:1.45;}
 
 /* ---------- the coronation ---------- */
 .cine-cap{font-family:var(--disp); font-weight:700; letter-spacing:.18em; fill:#fff6da;
@@ -308,31 +349,32 @@ body{overflow:hidden;}
   paint-order:stroke; stroke:#241207; stroke-width:4px; stroke-linejoin:round;}
 
 #reveal.papam{background:radial-gradient(ellipse 70% 60% at 50% 42%, rgba(120,84,20,.6), rgba(8,4,2,.9) 70%);}
-#reveal.papam .panel{position:relative; overflow:visible; animation:papamIn .8s cubic-bezier(.16,1,.3,1) both;}
+#reveal.papam #revrays{display:block;}
+#reveal.papam .panel{animation:papamIn .8s cubic-bezier(.16,1,.3,1) both;}
 @keyframes papamIn{ from{opacity:0; transform:scale(.9) translateY(18px)} to{opacity:1; transform:none} }
-#revrays{position:absolute; left:50%; top:38%; width:1200px; height:1200px; margin:-600px 0 0 -600px;
-  z-index:-1; pointer-events:none; opacity:.5; animation:rayTurn 44s linear infinite;
+#revrays{position:absolute; left:50%; top:46%; width:1200px; height:1200px; margin:-600px 0 0 -600px;
+  z-index:0; display:none; pointer-events:none; opacity:.5; animation:rayTurn 44s linear infinite;
   background:repeating-conic-gradient(from 0deg,
     rgba(240,217,138,.5) 0deg 2.6deg, rgba(240,217,138,0) 2.6deg 11deg);
   -webkit-mask-image:radial-gradient(circle, #000 12%, rgba(0,0,0,.55) 40%, transparent 68%);
           mask-image:radial-gradient(circle, #000 12%, rgba(0,0,0,.55) 40%, transparent 68%);}
 @keyframes rayTurn{ to{transform:rotate(360deg)} }
-#revcrest{width:104px; height:112px; margin:0 auto 12px; background-image:var(--img-insignia);
-  background-size:cover; background-position:center; border-radius:52px 52px 5px 5px;
+#revcrest{width:84px; height:90px; margin:0 auto 9px; background-image:var(--img-insignia);
+  background-size:cover; background-position:center; border-radius:42px 42px 5px 5px;
   border:3px solid var(--gold2); box-shadow:0 6px 22px rgba(60,32,12,.5), inset 0 0 0 1px rgba(255,246,220,.5),
   0 0 0 5px rgba(217,180,84,.18), 0 0 34px rgba(240,217,138,.45);
   animation:crestGlow 3.4s ease-in-out infinite;}
 @keyframes crestGlow{ 0%,100%{box-shadow:0 6px 22px rgba(60,32,12,.5), inset 0 0 0 1px rgba(255,246,220,.5), 0 0 0 5px rgba(217,180,84,.18), 0 0 26px rgba(240,217,138,.35)}
   50%{box-shadow:0 6px 22px rgba(60,32,12,.5), inset 0 0 0 1px rgba(255,246,220,.5), 0 0 0 5px rgba(217,180,84,.3), 0 0 46px rgba(240,217,138,.7)} }
-#revlatin{font-family:var(--serif); font-style:italic; font-size:14.5px; color:var(--ink2); margin:2px 0 6px;}
-#revname{font-family:'Cormorant SC',Georgia,serif; font-weight:700; font-size:38px; letter-spacing:.08em;
-  color:var(--crimson); line-height:1.05; margin:6px 0 2px;
+#revlatin{font-family:var(--serif); font-style:italic; font-size:13.5px; color:var(--ink2); margin:2px 0 5px;}
+#revname{font-family:'Cormorant SC',Georgia,serif; font-weight:700; font-size:32px; letter-spacing:.08em;
+  color:var(--crimson); line-height:1.05; margin:4px 0 2px;
   text-shadow:0 1px 0 rgba(255,250,235,.9), 0 3px 14px rgba(109,26,38,.25);}
-#revwho{font-family:var(--disp); font-size:11px; letter-spacing:.2em; color:var(--ink2); margin-bottom:12px;}
+#revwho{font-family:var(--disp); font-size:10.5px; letter-spacing:.2em; color:var(--ink2); margin-bottom:10px;}
 .papam-you{display:inline-block; font-family:var(--disp); font-size:10px; letter-spacing:.2em;
   background:linear-gradient(180deg,#ecd489,var(--gold)); color:#2a1710; border:1px solid #8a6a1f;
   border-radius:3px; padding:3px 9px; margin-left:8px; vertical-align:3px;}
-.revrow{display:flex; align-items:center; gap:9px; padding:7px 10px; border-radius:4px; font-size:14px; text-align:left;}
+.revrow{display:flex; align-items:center; gap:9px; padding:5px 10px; border-radius:4px; font-size:13.5px; text-align:left;}
 .revrow.winner{background:rgba(211,169,79,.14); box-shadow:inset 0 0 0 1px rgba(240,217,138,.5);}
 #pause{position:fixed; inset:0; z-index:35; display:none; align-items:center; justify-content:center; background:rgba(8,4,2,.7);}
 #pause .panel{padding:30px 44px; text-align:center;}
@@ -441,11 +483,13 @@ body{overflow:hidden;}
       <span style="background:var(--naples)">NAPLES</span>
     </div>
     <p class="ask">You and your rivals run Medici Banks.<br>Can you rally support of the Cardinals to elect <i>Giovanni de' Medici</i> as Pope?</p>
-    <div class="optrow" id="mode">
+    <div class="optrow" id="mode" style="gap:14px">
       <span class="modeopt"><span class="eyebrow">the base game</span>
-        <button class="btn" data-x="0">The Conclave</button></span>
+        <button class="btn" data-x="0">The Conclave</button>
+        <button class="btn tutlink" id="tutbtn">Tutorial</button></span>
       <span class="modeopt"><span class="eyebrow">the full game</span>
-        <button class="btn" data-x="1" aria-pressed="true">The Medici Bank</button></span>
+        <button class="btn" data-x="1" aria-pressed="true">The Medici Bank</button>
+        <button class="btn tutlink" id="tutbtn2">Tutorial</button></span>
     </div>
     <div class="eyebrow" style="margin-top:14px">Banks at the table (you + rivals)</div>
     <div class="optrow" id="pcount">
@@ -454,7 +498,9 @@ body{overflow:hidden;}
       <button class="btn" data-n="5">5</button>
     </div>
     <div id="qreadout">The Conclave takes <b>6</b> Cardinals · the <b>8</b>th forces the doors</div>
-    <div style="margin-top:16px"><button class="btn gold" id="begin" style="font-size:15px; padding:11px 26px;">Enter the Curia</button></div>
+    <div class="optrow" style="margin-top:16px">
+      <button class="btn gold" id="begin" style="font-size:15px; padding:11px 26px;">Enter the Curia</button>
+    </div>
     <div class="hr"></div>
     <div style="text-align:center; margin-bottom:4px;">
       <div class="eyebrow">Play with friends</div>
@@ -469,14 +515,6 @@ body{overflow:hidden;}
     <div class="rules">
       <b>THE GAME</b>
       As a Medici banker you will travel through France, Spain, the Holy Roman Empire, and Rome to collect money to support Giovanni de' Medici as Pope. Your rivals see how much <b class="inl">Influence</b> you have, and you see theirs, but you cannot see your own. Gather <b class="inl">Cardinals</b> in the cities where you find <b class="inl">Support</b>. When enough Cardinals have gathered, call a <b class="inl">Conclave</b>, and become the Pope's <b class="inl">Depositary General of the Papal Treasury</b>!
-      <b>YOUR TURN · 3 MOVES</b>
-      Click a Banker, then a lit step: 1 move per step. Reach a road's end to complete it. Any time on your turn: <b class="inl">Influence 3ƒ</b> (one, faces away) · <b class="inl">Support 3ƒ</b> (any number, secret; Rome pays 1ƒ per card) · <b class="inl">Bond 3ƒ</b> (two at a time).
-      <b>A COMPLETION, IN ORDER</b>
-      <b class="inl">1</b> cash any bonds · <b class="inl">2</b> collect the pay · <b class="inl">3</b> seat a Cardinal (optional, paid) · <b class="inl">4</b> take the favor, <i>or at Rome, Call the Conclave</i>.
-      <b>THE CONCLAVE</b>
-      Quorum is 5 / 6 / 7 by player count; two past quorum forces the doors. Schemes may strike before the ballots are read.
-      <b class="expo">THE MEDICI BANK</b>
-      <span class="expo">3ƒ in · matures 4 to 5 to 6 at the start of your turns · cash at any completion. All bonds are public.</span>
     </div>
   </div>
 </div>
@@ -537,6 +575,33 @@ body{overflow:hidden;}
       </div>
     </div>
   </div>
+</div>
+
+<!-- ============ TUTORIAL: mask, ring, bubble ============ -->
+<div id="tutmask">
+  <div class="shade" data-s="top"></div>
+  <div class="shade" data-s="bottom"></div>
+  <div class="shade" data-s="left"></div>
+  <div class="shade" data-s="right"></div>
+  <div class="ring"></div>
+</div>
+<div id="tutbubble" class="panel">
+  <div class="teyebrow" id="tuteyebrow">Tutorial</div>
+  <h3 id="tuttitle"></h3>
+  <div id="tuttext"></div>
+  <div class="trow">
+    <span class="tstep" id="tutstep"></span>
+    <div class="tbtns">
+      <button class="btn ghost" id="tutmin" title="Collapse">–</button>
+      <button class="btn ghost" id="tutback">Back</button>
+      <button class="btn gold" id="tutnext">Next</button>
+    </div>
+  </div>
+</div>
+<button id="tutpeek" title="Show the lesson">Lesson <b id="tutpeekn"></b></button>
+<div id="tutcontinue" class="panel">
+  <span id="tutcontinuetext"></span>
+  <button class="btn gold" id="tutcontinuebtn">Finish tutorial</button>
 </div>
 
 <!-- ============ THE ROOM: create · join · gather ============ -->
@@ -619,8 +684,8 @@ body{overflow:hidden;}
   </div>
 </div>
 <div id="reveal">
+  <div id="revrays"></div>
   <div class="panel">
-    <div id="revrays"></div>
     <div id="revcrest"></div>
     <p id="revabove">Giovanni de’ Medici is crowned <b>LEO X</b></p>
     <h2 id="revtitle">HABEMUS PAPAM</h2>
@@ -800,7 +865,7 @@ async function placeCardinal(p, t){
   G.cardinals--;
   G.terr[t].push({arr:G.arrSeq++});
   p.invested[t] = (p.invested[t]||0) + 1;
-  UI.journal(`${p.name} seats a Cardinal in ${TERRS[t].name} — ${cardsIn(t)} now stand there.`, p.human);
+  UI.journal(`${p.name} seats a Cardinal in ${TERRS[t].name}: ${cardsIn(t)} now stand there.`, p.human);
   UI.render();
   await cardinalWindow(t);
 }
@@ -815,7 +880,7 @@ async function removeCardinal(t, i, byName){
   if (!G.terr[t].length) return;
   G.terr[t].splice(Math.min(i, G.terr[t].length-1),1);
   G.cardinals++;                                   // the hat goes back to the Curia's box
-  UI.journal(`${byName} removes a Cardinal from ${TERRS[t].name} — ${cardsIn(t)} remain.`);
+  UI.journal(`${byName} removes a Cardinal from ${TERRS[t].name}: ${cardsIn(t)} remain.`);
   UI.render();
   await cardinalWindow(t);
 }
@@ -839,6 +904,7 @@ async function cardinalWindow(subject, isConclave){
   }
 }
 async function reactionRound(subject, isConclave){
+  if (typeof TUT!=='undefined' && TUT.noReact) return;   // the tour speaks without interruption
   let passes = 0, idx = (G.active+1) % G.players.length, guard = 0;
   while (passes < G.players.length && guard++ < 24 && !G.over){
     const p = G.players[idx];
@@ -862,7 +928,7 @@ async function playScheme(p, key, ctx){
   UI.journal(`${p.name} plays ${SCHEMES[key].name}.`, p.human);
   UI.render();
   const unplay = () => { p.hand.push(key);
-    UI.journal(`${p.name} thinks better of it — the ${SCHEMES[key].name} returns to hand.`, p.human); };
+    UI.journal(`${p.name} thinks better of it, and the ${SCHEMES[key].name} returns to hand.`, p.human); };
   if (key==='bribe'){
     const mv = p.human ? await seatUI(p).pickCardinalMove(p, 'Bribe') : AI.pickBribe(p, ctx);
     if (mv) await moveCardinal(mv.from, mv.idx, mv.to, p.name); else unplay();
@@ -915,7 +981,7 @@ async function buyAtRome(p, key){
   p.shopped = true;
   if (key==='authority'){
     p.authority++;
-    UI.journal(`${p.name} purchases <b>AUTHORITY</b> — their standing rises by one, for all to see.`, p.human);
+    UI.journal(`${p.name} purchases <b>AUTHORITY</b>. Their standing rises by one, for all to see.`, p.human);
   } else if (PERMS[key]){
     p.perms.push(key);
     UI.journal(`${p.name} buys the ${PERMS[key].name} through Patronage.`, p.human);
@@ -932,7 +998,7 @@ async function buyInfluence(p){
   if (!canBuyInfluence(p)) return false;
   p.purse -= CARD_COST.influence;
   p.influence = G.influenceDeck.pop();
-  UI.journal(`${p.name} buys <b>Influence</b> — the card is set facing away, for all to read but its owner.`, p.human);
+  UI.journal(`${p.name} buys <b>Influence</b>. The card is set facing away, for all to read but its owner.`, p.human);
   UI.render();
   return true;
 }
@@ -941,7 +1007,7 @@ async function buySupport(p){
   p.purse -= CARD_COST.support;
   const t = drawSupport();
   p.supports.push(t);
-  UI.journal(`${p.name} buys the <b>Support</b> of a city — which one, only they know.`, p.human);
+  UI.journal(`${p.name} buys the <b>Support</b> of a city, and which one only they know.`, p.human);
   UI.render();
   if (p.human) await seatUI(p).privateNote('SUPPORT SECURED',
     `The cardinals of <b style="color:var(--crimson)">${TERRS[t].name}</b> declare for you. You now hold: <b>${p.supports.map(s=>TERRS[s].name).join(', ')}</b>.`);
@@ -957,7 +1023,7 @@ async function completionSequence(p, path){
     const toCash = p.human ? await seatUI(p).cashBondsPrompt(p) : AI.cashBonds(p);
     let got = 0;
     for (const step of toCash){ const i=p.bonds.indexOf(step); if(i>=0){ p.bonds.splice(i,1); got += step; } }
-    if (got){ p.purse += got; UI.journal(`${p.name} calls in bonds from the Bank — ${got}ƒ home.`, p.human); }
+    if (got){ p.purse += got; UI.journal(`${p.name} calls in bonds from the Bank: ${got}ƒ home.`, p.human); }
   }
   // 2 — payout
   // Rome pays a florin for every city that has declared for you
@@ -1008,7 +1074,7 @@ async function takeFavor(p, path){
       if (p.influence==null && G.influenceDeck.length){
         p.influence = G.influenceDeck.pop();
         p.knowsOwnInfluence = false;
-        UI.journal(`${p.name} is granted their first <b>Influence</b> at the French court — dealt facing away.`, p.human);
+        UI.journal(`${p.name} is granted their first <b>Influence</b> at the French court, dealt facing away.`, p.human);
       }
     } else if (mode==='peek'){
       if (p.influence==null){ UI.journal(`${p.name} has no Influence card to read.`, p.human); }
@@ -1024,7 +1090,7 @@ async function takeFavor(p, path){
         shuffle(G.influenceDeck);
         p.influence = G.influenceDeck.pop();
         p.knowsOwnInfluence = false;          // the new card faces away like the old one
-        UI.journal(`${p.name} throws their standing back to the French court and draws again — <b>sight unseen</b>.`, p.human);
+        UI.journal(`${p.name} throws their standing back to the French court and draws again, <b>sight unseen</b>.`, p.human);
         if (p.human) await seatUI(p).privateNote('A NEW STANDING',
           'The old card goes back into the deck and a new one is dealt facing away. Every rival can read it. You cannot.');
       }
@@ -1032,7 +1098,7 @@ async function takeFavor(p, path){
       const r = G.players[mode.swap];
       const mine = p.influence; p.influence = r.influence; r.influence = mine;
       p.knowsOwnInfluence = p.influence!=null; r.knowsOwnInfluence = r.influence!=null;
-      UI.journal(`${p.name} and ${r.name} exchange Influence — each takes the card they could see.`, p.human || r.human);
+      UI.journal(`${p.name} and ${r.name} exchange Influence: each takes the card they could see.`, p.human || r.human);
       if (p.human) await seatUI(p).privateNote('THE EXCHANGE',
         p.influence==null ? 'You traded your standing away for nothing at all.'
         : `You received the card you could see: your Influence is now <b style="font-size:24px;color:var(--crimson)">${p.influence}</b>.`);
@@ -1050,10 +1116,10 @@ async function takeFavor(p, path){
     if (act && act.kind==='peek'){
       const r = G.players[act.rival];
       p.knownSupports[r.id] = r.supports.slice();
-      UI.journal(`${p.name} leans on ${r.name} — Spain's captains learn which cities have declared for them.`, p.human);
+      UI.journal(`${p.name} leans on ${r.name}, and Spain's captains learn which cities have declared for them.`, p.human);
       if (p.human) await seatUI(p).privateNote('THE ADRIATIC WATCH',
         r.supports.length ? `${r.name} holds the Support of <b style="color:var(--crimson)">${r.supports.map(s=>TERRS[s].name).join(', ')}</b>.`
-                          : `${r.name} holds no Support at all — no city has declared for them.`);
+                          : `${r.name} holds no Support at all. No city has declared for them.`);
     }
     if (act && act.kind==='redraw'){
       const gi = p.supports.indexOf(act.give);
@@ -1095,7 +1161,7 @@ async function takeFavor(p, path){
     let take=0;
     for (const r of rivalsOf(p)){ if (r.purse>0){ r.purse--; take++; } }
     p.purse += take;
-    UI.journal(`${p.name} levies the <b>PAPAL TITHE</b> — every rival pays a florin from their purse. ${take}ƒ collected.`, p.human);
+    UI.journal(`${p.name} levies the <b>PAPAL TITHE</b>: every rival with a florin pays one. ${take}ƒ collected.`, p.human);
   }
   UI.render();
 }
@@ -1104,13 +1170,13 @@ async function takeFavor(p, path){
 async function resolveConclave(t, kind, caller){
   if (G.over) return;
   const need = kind==='call' ? G.quorum : G.force;
-  UI.journal(`— THE CONCLAVE ${kind==='call'?'IS CALLED':'IS FORCED'} IN ${TERRS[t].name} (${cardsIn(t)} Cardinals) —`);
+  UI.journal(`THE CONCLAVE ${kind==='call'?'IS CALLED':'IS FORCED'} IN ${TERRS[t].name} (${cardsIn(t)} Cardinals)`);
   UI.render();
   await delay(600);
   await cardinalWindow(t, true);
   if (G.over) return;
   if (cardsIn(t) < need){
-    UI.journal(`The count in ${TERRS[t].name} falls short — the Conclave FAILS and the doors reopen.`);
+    UI.journal(`The count in ${TERRS[t].name} falls short. The Conclave FAILS and the doors reopen.`);
     UI.render();
     return;
   }
@@ -1124,7 +1190,7 @@ async function resolveConclave(t, kind, caller){
       G.terr[t].forEach((c,i)=>{ if(c.arr>hiArr){hiArr=c.arr; hi=i;} });
       G.terr[t].splice(hi,1); G.cardinals++; trimmed++;
     }
-    UI.journal(`No candidate holds ${TERRS[t].name}'s Support — <b>the ballots burn black</b>. ${trimmed} Cardinal${trimmed===1?'':'s'} disperse; ${TERRS[t].name} falls to ${cardsIn(t)}.`);
+    UI.journal(`No candidate holds ${TERRS[t].name}'s Support, and <b>the ballots burn black</b>. ${trimmed} Cardinal${trimmed===1?'':'s'} disperse; ${TERRS[t].name} falls to ${cardsIn(t)}.`);
     if (typeof NET!=='undefined') NET.broadcastEnd('black', {t, caller:caller?caller.id:null, trimmed});
     await UI.blackSmoke(t, caller, trimmed);
     UI.render();
@@ -1158,6 +1224,12 @@ function depositBond(p){
 function legalMoves(p, bi){
   const b = p.bankers[bi], out = [];
   if (!b || b.done || p.mp<=0 || G.over) return out;
+  // A guided lesson narrows the legal set to the one move it is teaching.
+  if (typeof TUT!=='undefined' && TUT.lock){
+    if (bi!==TUT.lock.bi) return out;
+    const step = TUT.lock.step, cost = b.loc ? step-b.loc.step : step;
+    return (cost>0 && cost<=p.mp) ? [{path:TUT.lock.path, step, cost}] : out;
+  }
   if (!b.loc){
     for (const pk of pathList())
       for (let s=1; s<=Math.min(PATHS[pk].steps, p.mp); s++) out.push({path:pk, step:s, cost:s});
@@ -1821,14 +1893,14 @@ function iceConfig(){
 }
 window.setRelay = raw => {
   try{ if (!raw) localStorage.removeItem(RELAY_KEY); else localStorage.setItem(RELAY_KEY, String(raw)); }catch(e){}
-  return 'relay saved — every player must set the same one';
+  return 'relay saved. Every player must set the same one.';
 };
 function brokerReconnect(peer, who){
   let tries = 0;
   peer.on('open', ()=>{ tries=0; });
   peer.on('disconnected', ()=>{
     if (peer.destroyed || tries>=5) return;
-    tries++; crumb(who+': the road dropped — reconnecting ('+tries+'/5)…');
+    tries++; crumb(who+': the road dropped, reconnecting ('+tries+'/5)…');
     setTimeout(()=>{ try{ if(!peer.destroyed) peer.reconnect(); }catch(e){} }, 1500*tries);
   });
 }
@@ -1978,7 +2050,7 @@ function seatAway(seat){
   const p = G && G.players && G.players[seat];
   if (p && p.human && !G.over && G.active!==seat){
     p.human = false;
-    UI.toast((NET.names[seat]||p.name)+' has lost the road — the House holds their seat.');
+    UI.toast((NET.names[seat]||p.name)+' has lost the road. The House holds their seat.');
   }
   UI.render();
 }
@@ -2011,7 +2083,7 @@ function lobbyModel(){
   return { cfg:NET.cfg, seats, names:NET.names };
 }
 function renderLobby(model){
-  $('#lbcode').textContent = NET.code || '—';
+  $('#lbcode').textContent = NET.code || '·';
   $('#lbcfg').textContent = `${model.cfg.mode==='full'?'The Medici Bank':'The Conclave'} · ${model.cfg.n} banks`;
   const box = $('#lbseats'); box.innerHTML='';
   model.seats.forEach(s=>{
@@ -2159,7 +2231,7 @@ function guestReconnect(){
   if (RECON) return;
   const saved = savedSeat();
   if (!saved){ UI.toast('The connection to the host is lost.'); return; }
-  UI.toast('The road to the host is lost — reaching for the room again…');
+  UI.toast('The road to the host is lost. Reaching for the room again…');
   let n = 0;
   const dial = ()=>{
     if (++n > 20){ clearInterval(RECON); RECON=null; UI.toast('The room cannot be found.'); return; }
@@ -2479,7 +2551,8 @@ const UI = {
         fill:'none',stroke:'rgba(90,64,28,.55)','stroke-width':2,'stroke-dasharray':'1 8','stroke-linecap':'round'},svg);
     }
 
-    if (G.mode==='full'){  // Rome on the map; the base game has none
+    // Rome stands on the map in both games. Only the full game runs a road to it.
+    {
     el('circle',{cx:ROMA.x,cy:ROMA.y,r:26,fill:'url(#ringGlow)',class:'flick'},svg);
     el('circle',{cx:ROMA.x,cy:ROMA.y,r:15,fill:'#f0e2bd',stroke:'var(--gold2)','stroke-width':2},svg);
     const rk = el('g',{transform:`translate(${ROMA.x},${ROMA.y+1}) scale(.3)`,stroke:'#8a6a1f','stroke-width':6,'stroke-linecap':'round'},svg);
@@ -2487,8 +2560,9 @@ const UI = {
     el('line',{x1:22,y1:22,x2:-16,y2:-16},rk);
     const rlbl2 = el('text',{x:ROMA.x+24, y:ROMA.y+6, 'text-anchor':'start', class:'maplbl','font-size':13},svg);
     rlbl2.textContent = 'ROMA';
-    el('path',{d:`M ${ROMA.x-16},${ROMA.y+8} C 340,490 320,500 ${RINGS.rome.x+RINGS.rome.r-16},${RINGS.rome.y-56}`,
-      fill:'none',stroke:'rgba(138,106,58,.45)','stroke-width':1.2,'stroke-dasharray':'3 5'},svg);
+    if (G.mode==='full')          // the dotted thread to the Vatican road, where there is one
+      el('path',{d:`M ${ROMA.x-16},${ROMA.y+8} C 340,490 320,500 ${RINGS.rome.x+RINGS.rome.r-16},${RINGS.rome.y-56}`,
+        fill:'none',stroke:'rgba(138,106,58,.45)','stroke-width':1.2,'stroke-dasharray':'3 5'},svg);
     }
 
     // the two sea rings — Rome in the Tyrrhenian, the Empire in the Adriatic
@@ -2649,7 +2723,7 @@ const UI = {
       const au = p.authority ? `<span class="auth" title="Authority: bought standing, public, kept through every swap">+${p.authority}</span>` : '';
       const inf = (p.influence==null
         ? `<span class="inf none" title="no Influence card yet">–</span>`
-        : (p.human ? `<span class="inf hid" title="Your Influence faces away. Every rival reads it; you cannot.">${p.knowsOwnInfluence? p.influence : '?'}</span>`
+        : (p.human ? `<span class="inf ${p.knowsOwnInfluence?'read':'hid'}" title="${p.knowsOwnInfluence?'You have read your own Influence. It still shows the same number to every rival.':'Your Influence faces away. Every rival reads it; you cannot.'}">${p.knowsOwnInfluence? p.influence : '?'}</span>`
                    : `<span class="inf" title="${p.name}'s Influence, visible to every rival">${p.influence}</span>`)) + au;
       row.innerHTML = `<span class="dot" style="background:${p.color}"></span>
         <span class="pname" style="flex:1">${p.name.replace('Messer ','')}${p.id===MY_SEAT?' <i style="color:var(--crimson)">(you)</i>':''}${(G.away&&G.away.includes(p.id))?' <i title="away, the House holds this seat">·</i>':''}${i===G.active?'<span class="turnmark">NOW</span>':''}</span>
@@ -2702,7 +2776,8 @@ const UI = {
     p.bankers.forEach((b,bi)=>{
       const tok=document.createElement('button');
       const where = b.done ? 'returned' : b.loc ? `${PATHS[b.loc.path].name.replace('THE ','')}<br>${b.loc.step}/${PATHS[b.loc.path].steps}` : 'reserve';
-      tok.className='banktok'+(this.selBanker===bi?' sel':'')+(b.done?' spent':'');
+      tok.className='banktok'+(this.selBanker===bi?' sel':'')+(b.done?' spent':'')
+        +((TUT.onlyBanker!=null && TUT.onlyBanker>=0 && bi===TUT.onlyBanker)?' tutlit':'');
       tok.innerHTML=`<svg class="bkpurse" viewBox="-11 -15 22 29" aria-hidden="true">
           <path d="M -5.4,-6.4 L 5.4,-6.4 L 4.1,-9.8 L -4.1,-9.8 Z" fill="#a8842f" stroke="#2a1608" stroke-width="1.1" stroke-linejoin="round"/>
           <path d="M -4.2,-9.8 C -6.6,-11.8 -7.8,-13.2 -8.8,-12.6" fill="none" stroke="#a8842f" stroke-width="1.4" stroke-linecap="round"/>
@@ -2715,7 +2790,8 @@ const UI = {
         </svg>
         <span class="bkcol"><span class="bkname">BANKER ${bi+1}</span>
         <span class="bkwhere">${where}</span></span>`;
-      tok.disabled = !myTurn || this.busy || b.done || p.mp<=0;
+      tok.disabled = !myTurn || this.busy || b.done || p.mp<=0
+        || (TUT.onlyBanker!=null && bi!==TUT.onlyBanker);
       tok.title = b.done ? 'This Banker has returned home for the turn.'
         : 'Click, then click a glowing step on the map.';
       tok.onclick=()=>{
@@ -2736,7 +2812,9 @@ const UI = {
     if (p.influence!=null){
       const c=document.createElement('div');
       c.className='pcard influence';
-      c.title='Your standing in the Curia. It faces away: rivals read it, and you cannot until you look.';
+      c.title = p.knowsOwnInfluence
+        ? 'Your standing in the Curia. You have read it. It reads the same to every rival.'
+        : 'Your standing in the Curia. It faces away: rivals read it, and you cannot until you look.';
       c.innerHTML=`<span class="ptop">INFLUENCE</span>
         <span class="pmain">${p.knowsOwnInfluence? p.influence : '?'}${p.authority? ' <b style="color:var(--gold2)">+'+p.authority+'</b>':''}</span>
         <span class="pfoot">${p.knowsOwnInfluence? 'you have read it' : 'faces away'}${p.authority? ' · +'+p.authority+' Authority':''}</span>`;
@@ -2772,26 +2850,26 @@ const UI = {
 
     // actions
     const bi = $('#buyinf');
-    bi.disabled = !myTurn || this.busy || !canBuyInfluence(p);
+    bi.disabled = !myTurn || this.busy || !canBuyInfluence(p) || TUT.blocks('buyinf');
     bi.textContent = p.influence!=null ? 'Influence · held' : 'Influence · 3ƒ';
     bi.title = p.influence!=null ? 'You already hold your Influence card. One only.'
       : 'Buy your standing in the Curia. Dealt 1–9 and set facing away. Any time on your turn.';
     const bs = $('#buysup');
-    bs.disabled = !myTurn || this.busy || !canBuySupport(p);
+    bs.disabled = !myTurn || this.busy || !canBuySupport(p) || TUT.blocks('buysup');
     bs.textContent = `Support · ${CARD_COST.support}ƒ${p.supports.length?` (${p.supports.length})`:''}`;
     bs.title = 'A city declares for you, drawn in secret. Hold as many as you can afford. Any time on your turn.';
     for (const id of ['#buyinf','#buysup']) $(id).style.display = G.mode==='full' ? 'block' : 'none';
     $('#hb-acts').classList.toggle('lean', G.mode!=='full');
     const shopBtn = $('#shopbtn');
-    shopBtn.disabled = !(myTurn && !this.busy && canTrade(p) && !p.shopped);
+    shopBtn.disabled = !(myTurn && !this.busy && canTrade(p) && !p.shopped) || TUT.blocks('shopbtn');
     shopBtn.textContent = p.shopped ? 'Patronage · used' : 'Patronage';
     shopBtn.title = canTrade(p)
-      ? (p.shopped ? 'You have already spent on Patronage this turn.' : (G.mode==='full' ? 'Holdings and schemes.' : 'Schemes.'))
+      ? (p.shopped ? 'You have already spent on Patronage this turn.' : 'Holdings and schemes.')
       : 'A Banker must stand on the Vatican road before you can spend on Patronage.';
     $('#bondbtn').style.display = G.mode==='full'?'block':'none';
-    $('#bondbtn').disabled = !myTurn || this.busy || p.bonds.length>=2 || p.purse<3;
+    $('#bondbtn').disabled = !myTurn || this.busy || p.bonds.length>=2 || p.purse<3 || TUT.blocks('bondbtn');
     $('#bondbtn').textContent = `Bond · 3ƒ (${p.bonds.length}/2)`;
-    $('#endturn').disabled = !myTurn || this.busy;
+    $('#endturn').disabled = !myTurn || this.busy || TUT.blocks('endturn');
   },
 
   humanTurn(p){ return new Promise(res=>{ this.turnResolver=res; this.selBanker=null; this.render(); }); },
@@ -2804,14 +2882,14 @@ const UI = {
       `Bonds on the ledger: ${p.bonds.map(s=>s+'ƒ').join(', ')}.`,
       [ {label:'Cash everything', sub:`${total}ƒ home`, value:p.bonds.slice()},
         ...(matured.length && matured.length<p.bonds.length ? [{label:'Cash only the matured (6ƒ)', sub:`${matured.reduce((a,b)=>a+b,0)}ƒ`, value:matured}] : []),
-        {label:'Let them ride', sub:'maturing, and raidable', value:[]} ]);
+        {label:'Let them ride', sub:'each climbs one step next turn', value:[]} ]);
   },
   async callPrompt(p, path, callable){
     const opts = callable.map(t=>({
       label:`CALL THE CONCLAVE in ${TERRS[t].name}`,
       sub:`${cardsIn(t)} Cardinals${backs(p,t)?' · they support you':' · they do NOT support you'}`,
       value:t }));
-    opts.push({label:'Not yet', sub:'take Rome’s favor instead', value:null});
+    opts.push({label:'Not yet', sub:`take ${G.mode==='base' ? 'this road’s' : 'Rome’s'} favor instead`, value:null});
     return await this.choose('A QUORUM STANDS',
       (G.mode==='base' ? 'Any completion may summon a Conclave in the base game. It costs you this road’s favor.' : 'Only Rome may summon a Conclave. It costs you this road’s favor.') + ' Among the banks backing that city, the highest Influence delivers the Pope, and takes the Treasury, caller or not.',
       opts, callable.map(t=>({t, value:t})));
@@ -2829,7 +2907,7 @@ const UI = {
   async favorPrompt(p, path){
     // Rome alone still asks — its favor has no menu of its own; the other roads open theirs directly
     return await this.choose('THE ROAD’S FAVOR', 'Rome offers its favor.',
-      [ {label:'Take the favor', sub:'the Papal Tithe: a florin from every rival', value:true},
+      [ {label:'Take the favor', sub:'the Papal Tithe: a florin from every rival who has one', value:true},
         {label:'Decline', value:false} ]);
   },
   async franceFavor(p){
@@ -3079,32 +3157,36 @@ const UI = {
 /* ============ overlays ============ */
 function fillOverlays(){
   if (!G) return;                      // nothing to describe until a game exists
+  const full = G.mode==='full';
   $('#rbbody').innerHTML = `
-    <h4>THE GAME</h4><p>As a Medici banker you will travel through France, Spain, the Holy Roman Empire, and Rome to collect money to support Giovanni de' Medici as Pope. Your rivals see how much <b>Influence</b> you have, and you see theirs, but you cannot see your own. Gather <b>Cardinals</b> in the cities where you find <b>Support</b>. When enough Cardinals have gathered, call a <b>Conclave</b>, and become the Pope's <b>Depositary General of the Papal Treasury</b>!</p>
-    <h4>YOUR TURN · 3 MOVES</h4><p>(4 with the Courier.) Click a Banker, then a lit step: 1 move per step. Reaching a road's last step completes it at once. At any moment on your turn, buy: <b>Influence 3ƒ</b> (one only, dealt 1 to 9, facing away so rivals read it and you cannot) · <b>Support 3ƒ</b> (a secret city, any number, all count) · <b>Bond 3ƒ</b> (onto the Bank's ledger, two at a time).</p>
-    <h4>A COMPLETION, IN ORDER</h4><p><b>1</b> Cash any bonds · <b>2</b> Collect the road's pay · <b>3</b> Seat a Cardinal from the road's list, if you pay · <b>4</b> Take the road's favor, <b>or at Rome only, Call the Conclave</b> in any city at quorum. <i>(Base game: any road may Call.)</i></p>
-    <h4>THE POWERS</h4>
+    <h4>THE GAME</h4><p>As a Medici banker you will travel the roads of ${full?'France, Spain, the Holy Roman Empire, and Rome':'France, Spain, and the Holy Roman Empire'} to collect money to support Giovanni de' Medici as Pope. Your rivals see how much <b>Influence</b> you have, and you see theirs, but you cannot see your own. Gather <b>Cardinals</b> in the cities where you find <b>Support</b>. When enough Cardinals have gathered, call a <b>Conclave</b>, and become the Pope's <b>Depositary General of the Papal Treasury</b>!</p>
+    <h4>YOUR TURN · 3 MOVES</h4><p>(4 with the Courier.) Click a Banker, then a lit step: 1 move per step. A Banker moves forward only, never changes roads, and leaves a road only by finishing it. Reaching a road's last step completes it at once. ${full
+      ? 'At any moment on your turn you may also buy: <b>Influence 3ƒ</b> (one only, dealt 1 to 9, facing away so rivals read it and you cannot) · <b>Support 3ƒ</b> (a secret city, any number, all count) · <b>Bond 3ƒ</b> (onto the Bank\'s ledger, two at a time).'
+      : 'Your Influence and your one Support card were dealt before the first turn and are not for sale. Only the favors of France and Spain can change them, and only Authority can raise your standing.'}</p>
+    <h4>A COMPLETION, IN ORDER</h4><p>${full
+      ? '<b>1</b> Cash any bonds · <b>2</b> Collect the road\'s pay · <b>3</b> Seat a Cardinal from the road\'s list, if you pay · <b>4</b> Take the road\'s favor, <b>or at Rome only, Call the Conclave</b> in any city at quorum.'
+      : '<b>1</b> Collect the road\'s pay · <b>2</b> Seat a Cardinal from the road\'s list, if you pay · <b>3</b> Take the road\'s favor, <b>or Call the Conclave</b> in any city at quorum. Any road may Call.'}</p>
+    <h4>THE ROADS</h4>
     <table>
-    <tr><th>Power</th><th>Steps</th><th>Pays</th><th>Seats</th><th>Favor</th></tr>
-    <tr><td>France</td><td>6</td><td>4ƒ</td><td>Genoa &amp; Milan · 2+n</td><td>your first Influence free, or read, redraw, or swap it</td></tr>
-    <tr><td>Spain</td><td>6</td><td>4ƒ</td><td>Naples &amp; Venice · 2+n</td><td>your first Support free, or peek, swap, or replace</td></tr>
+    <tr><th>Road</th><th>Steps</th><th>Pays</th><th>Seats</th><th>Favor</th></tr>
+    <tr><td>France</td><td>6</td><td>4ƒ</td><td>Genoa &amp; Milan · 2+n</td><td>${full?'your first Influence free, or read, redraw, or swap it':'read your own Influence, draw a new one, or swap with a rival'}</td></tr>
+    <tr><td>Spain</td><td>6</td><td>4ƒ</td><td>Naples &amp; Venice · 2+n</td><td>${full?'your first Support free, or peek, swap, or replace':'look at a rival\'s Support, swap, or court a different city'}</td></tr>
     <tr><td>Holy Roman Empire</td><td>7</td><td>6ƒ</td><td>anywhere · 3+n</td><td>move or remove a Cardinal</td></tr>
-    <tr><td>Rome</td><td>7</td><td><b>1ƒ per Support CARD</b></td><td>anywhere · flat 4ƒ</td><td>Papal Tithe: 1ƒ from every rival, or the Call</td></tr>
+    ${full?'<tr><td>Rome</td><td>7</td><td><b>1ƒ per Support CARD</b></td><td>anywhere · flat 4ƒ</td><td>Papal Tithe, or the Call</td></tr>':''}
     </table>
-    <p class="small"><i>n = Cardinals already in the city; no seat ever costs more than 6ƒ. ${G.mode==='full' ? "Stand anywhere on Rome's road to buy Patronage." : 'Patronage is sold on your own turn, wherever you stand.'}</i></p>
-    <p class="small"><i><b>Rome pays one florin for every Support card you hold.</b></i></p>
-    <h4>THE MEDICI BANK</h4><p>3ƒ in. The bond matures 4 → 5 → 6 at the start of your turns and cashes at any of your completions. Two at a time; every bond is public on the ledger.</p>
-    <h4>PATRONAGE · ONE PURCHASE PER TURN</h4><p>Holdings: <b>Letters of Credit 3ƒ</b> your Cardinals cost 1ƒ less · <b>Exchange House 4ƒ</b> +1ƒ every completion · <b>Authority 5ƒ</b> +1 Influence, as often as you like · <b>Courier Network 6ƒ</b> +1 move every turn. Schemes, four of each: <b>Scandal 3ƒ</b> remove a Cardinal · <b>Elevate 4ƒ</b> raise one anywhere · <b>Bribe 5ƒ</b> carry one city to city. Holdings stay with you all game. Schemes go to your hand and are played on your turn, or into the window that opens whenever Cardinals shift. ${G.mode==='full' ? '<b class="inl">In the Medici Bank, Patronage is sold only while one of your Bankers stands anywhere on Rome\'s road.</b>' : '<b class="inl">In the Conclave, Patronage is sold to anyone on their own turn, wherever their Bankers stand.</b>'}</p>
-    <h4>THE CONCLAVE</h4><p>Quorum is <b>5 / 6 / 7</b> Cardinals for 3 / 4 / 5 players; <b>two past quorum forces the doors</b>, no caller. Influence counts card plus Authority; <b>a tie goes to the higher card</b>: blood before gold. Before the ballots are read, schemes may strike. Count falls short, and the Conclave fails. No player backs the city, and the ballots burn black: it drops to one below quorum, and play goes on.</p>
-    <h4>PLAYING WITH FRIENDS</h4><p>One player <b>creates a room</b> and reads out the five-letter code; the others <b>join</b> with it. Seats nobody claims are played by the House. Everything hidden stays hidden: your rivals' Support and schemes never reach your machine at all. Lose your connection and the House holds your seat until you return; <b>Rejoin</b> walks you back into the same chair with your florins intact.</p>
-    <h4>THE TWO GAMES</h4><p><b>The Conclave</b> (base): no Rome, no Bank. Influence and one Support are dealt, Patronage sells to anyone on their own turn, and any road may Call. <b>The Medici Bank</b> (full): everything above, plus Rome's road, the Bank, and a candidacy you buy. Patronage moves to Rome's road, and only Rome may Call.</p>`;
+    <p class="small"><i>n = Cardinals already in the city. No seat ever costs more than 6ƒ, and none less than 1ƒ. ${full ? "Rome pays one florin for every Support <b>card</b> you hold, not every city." : 'Rome has no road in this game. It stands on the map, and nothing more.'}</i></p>
+    ${full?'<h4>THE MEDICI BANK</h4><p>3ƒ in, onto the ledger at 3. The bond matures 4 → 5 → 6 at the start of your turns and stops at 6. Two at a time. You cash at a completion, and only there: everything, or only the matured ones while others are still climbing. Every bond is public on the ledger.</p>':''}
+    <h4>PATRONAGE · ONE PURCHASE PER TURN</h4><p>Holdings: <b>Letters of Credit 3ƒ</b> your Cardinals cost 1ƒ less · <b>Exchange House 4ƒ</b> +1ƒ every completion · <b>Authority 5ƒ</b> +1 Influence, in plain view, as often as you like · <b>Courier Network 6ƒ</b> +1 move every turn. Schemes, four of each: <b>Scandal 3ƒ</b> remove a Cardinal · <b>Elevate 4ƒ</b> raise one anywhere · <b>Bribe 5ƒ</b> carry one city to city. Holdings stay with you all game. Schemes go to your hand and are played on your turn, or into the window that opens whenever Cardinals shift. ${full ? '<b class="inl">Sold only while one of your Bankers stands anywhere on Rome\'s road.</b>' : '<b class="inl">Sold to anyone on their own turn, wherever their Bankers stand.</b>'}</p>
+    <h4>THE CONCLAVE</h4><p>Quorum is <b>5 / 6 / 7</b> Cardinals for 3 / 4 / 5 players; <b>two past quorum forces the doors</b>, no caller. Influence counts card plus Authority, so bought points can make two banks equal where the cards could not; <b>a tie then goes to the higher Influence card</b>. Before the ballots are read, schemes may strike: if the city falls below quorum the Conclave fails, nothing is revealed, and the caller's favor is spent all the same. If no player backs the city the ballots burn black: it drops to one below quorum, and play goes on.</p>
+    <h4>PLAYING WITH FRIENDS</h4><p>One player <b>creates a room</b> and reads out the five-character code; the others <b>join</b> with it. Seats nobody claims are played by the House. Everything hidden stays hidden: your rivals' Support and schemes never reach your machine at all. Lose your connection and the House holds your seat until you return; <b>Rejoin</b> walks you back into the same chair with your florins intact.</p>
+    <h4>THE TWO GAMES</h4><p><b>The Conclave</b> (base): three roads, no Bank. Influence and one Support are dealt, Patronage sells to anyone on their own turn, and any road may Call. <b>The Medici Bank</b> (full): everything above, plus Rome's road, the Bank, and a candidacy you buy. Patronage moves to Rome's road, and only Rome may Call.</p>`;
   $('#pathsbody').innerHTML = `
-    <table><tr><th>Power</th><th>Steps</th><th>Pays</th><th>Seats</th><th>Favor</th></tr>
-    <tr><td>France · the Via Francigena</td><td>6</td><td>4ƒ</td><td>Genoa &amp; Milan · 2+n</td><td>your first Influence free, or read your own / draw anew / swap with a rival</td></tr>
-    <tr><td>Spain · the Aragonese watch</td><td>6</td><td>4ƒ</td><td>Naples &amp; Venice · 2+n</td><td>your first Support free, or look at a rival's / swap / court a new city</td></tr>
+    <table><tr><th>Road</th><th>Steps</th><th>Pays</th><th>Seats</th><th>Favor</th></tr>
+    <tr><td>France · the Via Francigena</td><td>6</td><td>4ƒ</td><td>Genoa &amp; Milan · 2+n</td><td>${full?'your first Influence free, or read your own / draw a new one / swap with a rival':'read your own / draw a new one / swap with a rival'}</td></tr>
+    <tr><td>Spain · the Aragonese watch</td><td>6</td><td>4ƒ</td><td>Naples &amp; Venice · 2+n</td><td>${full?'your first Support free, or look at a rival\'s / swap / court a new city':'look at a rival\'s / swap / court a different city'}</td></tr>
     <tr><td>The Holy Roman Empire</td><td>7</td><td>6ƒ</td><td>anywhere · 3+n</td><td>move 1 Cardinal / remove 1</td></tr>
-    <tr><td>Rome: the Vatican road <i>(full game only)</i></td><td>7</td><td><b>1ƒ per Support card</b></td><td>anywhere · <b>4ƒ</b></td><td>Papal Tithe · <b>Call the Conclave</b></td></tr></table>
-    <p style="margin-top:8px"><i>France and Spain run down the peninsula; the Empire and Rome stand off the coast, and each of those two reaches every city. Rome pays one florin for every Support <b>card</b> you hold. Stand anywhere on Rome's road to buy Patronage; you need not finish it.</i></p>`;
+    ${full?'<tr><td>Rome: the Vatican road</td><td>7</td><td><b>1ƒ per Support card</b></td><td>anywhere · <b>flat 4ƒ</b></td><td>the Papal Tithe, <b>or the Call</b></td></tr>':''}</table>
+    <p style="margin-top:8px"><i>France and Spain run down the peninsula${full?"; the Empire and Rome stand off the coast, and each of those two reaches every city. Rome pays one florin for every Support <b>card</b> you hold. Stand anywhere on Rome's road to buy Patronage; you need not finish it, though only a completion pays, seats, and Calls.":'; the Empire stands off the coast and reaches every city. Rome has no road in this game.'}</i></p>`;
 }
 function fillBanco(){
   const p=you(), full = G.mode==='full';
@@ -3137,7 +3219,7 @@ function fillBanco(){
 (function boot(){
   const opts = { players:4, mode:'full' };
   const wire = (sel, attr, fn)=>{
-    const btns = Array.from(document.querySelectorAll(sel+' .btn'));
+    const btns = Array.from(document.querySelectorAll(sel+' .btn[data-'+attr+']'));
     const paint = chosen => btns.forEach(x=>{
       const on = x.dataset[attr]===chosen;
       x.classList.toggle('sel', on);
@@ -3228,6 +3310,712 @@ window.MP = {
   },
   get state(){ return G; },
 };
+
+/* ============================================================
+   TUTORIALS
+   The tutorial does not simulate the game. It runs the real
+   engine with the legal-move set narrowed to one move at a time.
+   Five flags do all the gating:
+     TUT.lock        read by legalMoves()   — one banker, one destination
+     TUT.onlyBanker  read by renderHandbar() — which banker token is live
+     TUT.block       read by TUT.blocks()   — which action buttons are dead
+     TUT.noReact     read by reactionRound() — rivals cannot interrupt
+     TUT.guide       read by the patched prompts — one option, the taught one
+     TUT.act3        read by the patched reveal — explains why you won
+   ============================================================ */
+
+var TUT = {
+  active:false,
+  lock:null,          // {bi, path, step}
+  onlyBanker:null,    // index, or -1 for none, or null for no restriction
+  noReact:false,
+  guide:null,         // {seat, call, france}
+  act3:false,
+  block:new Set(),
+  ACTS:['buyinf','buysup','shopbtn','bondbtn','endturn'],
+  blocks(id){ return this.active && this.block.has(id); },
+  freeze(){ this.block = new Set(this.ACTS); this.onlyBanker = -1; },
+  allow(...ids){ this.block = new Set(this.ACTS.filter(x=>!ids.includes(x))); },
+  thaw(){ this.block = new Set(); this.onlyBanker = null; this.lock = null; },
+};
+
+/* ---------------- geometry ---------------- */
+function tutRect(target){
+  if (!target) return null;
+  const list = Array.isArray(target) ? target : [target];
+  let L=1e9, T=1e9, R=-1e9, B=-1e9, found=false;
+  for (const item of list){
+    const e = typeof item === 'string' ? document.querySelector(item) : item;
+    if (!e) continue;
+    const r = e.getBoundingClientRect();
+    if (r.width<1 || r.height<1) continue;
+    L=Math.min(L,r.left); T=Math.min(T,r.top); R=Math.max(R,r.right); B=Math.max(B,r.bottom);
+    found=true;
+  }
+  return found ? {left:L, top:T, right:R, bottom:B, width:R-L, height:B-T} : null;
+}
+
+function tutSpotlight(target){
+  const m = $('#tutmask');
+  m.style.display = 'block';
+  const sh = {};
+  m.querySelectorAll('.shade').forEach(s=>sh[s.dataset.s]=s);
+  const ring = m.querySelector('.ring');
+  const W = window.innerWidth, H = window.innerHeight;
+  const r = tutRect(target);
+  if (!r){
+    sh.top.style.cssText    = `left:0;top:0;width:${W}px;height:${H}px`;
+    sh.bottom.style.cssText = 'display:none';
+    sh.left.style.cssText   = 'display:none';
+    sh.right.style.cssText  = 'display:none';
+    ring.style.cssText      = 'display:none';
+    return null;
+  }
+  const P = 8;
+  const L = Math.max(0, r.left-P),  T = Math.max(0, r.top-P);
+  const R = Math.min(W, r.right+P), B = Math.min(H, r.bottom+P);
+  sh.top.style.cssText    = `left:0;top:0;width:${W}px;height:${T}px`;
+  sh.bottom.style.cssText = `left:0;top:${B}px;width:${W}px;height:${Math.max(0,H-B)}px`;
+  sh.left.style.cssText   = `left:0;top:${T}px;width:${L}px;height:${B-T}px`;
+  sh.right.style.cssText  = `left:${R}px;top:${T}px;width:${Math.max(0,W-R)}px;height:${B-T}px`;
+  ring.style.cssText      = `display:block;left:${L}px;top:${T}px;width:${R-L}px;height:${B-T}px`;
+  return {left:L, top:T, right:R, bottom:B, width:R-L, height:B-T};
+}
+function tutMaskOff(){ $('#tutmask').style.display='none'; }
+
+function tutPlaceBubble(rect, side){
+  const b = $('#tutbubble');
+  if (TUT._dragged) return;
+  const bw = b.offsetWidth, bh = b.offsetHeight, M = 16;
+  const W = window.innerWidth, H = window.innerHeight;
+  let x, y;
+  const huge = rect && (rect.width*rect.height)/(W*H) > .55;
+  if (!rect){
+    x = (W-bw)/2; y = (H-bh)/2;
+  } else if (huge){
+    x = side==='right' ? W-bw-M : (side==='center' ? (W-bw)/2 : M);
+    y = side==='top' ? M : (side==='bottom' ? H-bh-M : (H-bh)/2);
+  } else if (rect.bottom + bh + M < H){
+    y = rect.bottom + 12; x = rect.left + rect.width/2 - bw/2;
+  } else if (rect.top - bh - M > 0){
+    y = rect.top - bh - 12; x = rect.left + rect.width/2 - bw/2;
+  } else if (rect.right + bw + M < W){
+    x = rect.right + 12; y = rect.top;
+  } else {
+    x = rect.left - bw - 12; y = rect.top;
+  }
+  b.style.left = Math.max(M, Math.min(x, W-bw-M)) + 'px';
+  b.style.top  = Math.max(M, Math.min(y, H-bh-M)) + 'px';
+}
+
+/* ---------------- the bubble ---------------- */
+function tutShow(o){
+  if (typeof G !== 'undefined' && G) UI.render();   // gates changed; repaint before measuring
+  const b = $('#tutbubble');
+  $('#tuteyebrow').textContent = o.eyebrow || 'Tutorial';
+  $('#tuttitle').textContent   = o.title || '';
+  $('#tuttext').innerHTML      = (typeof o.html === 'function' ? o.html() : o.html) || '';
+  $('#tutstep').textContent    = o.step || '';
+  $('#tutback').style.display  = o.back ? '' : 'none';
+  $('#tutnext').style.display  = o.next ? '' : 'none';
+  $('#tutnext').textContent    = o.nextLabel || 'Next';
+  $('#tutbubble .trow').classList.toggle('bare', !o.next && !o.back && !o.step);
+  b.style.display = 'block';
+  const rect = o.mask===false ? (tutMaskOff(), tutRect(o.target)) : tutSpotlight(o.target);
+  tutPlaceBubble(rect, o.side);
+}
+function tutHideBubble(){ $('#tutbubble').style.display='none'; $('#tutpeek').style.display='none'; }
+
+/* A blocking run of captions. Resolves when the player walks off the end. */
+function tutSeg(steps){
+  return new Promise(resolve=>{
+    let i = 0;
+    const draw = ()=>{
+      const s = steps[i];
+      if (s.onShow) s.onShow();
+      TUT._last = ()=>tutShow({
+        eyebrow:s.eyebrow, title:s.title, html:s.html, target:s.target, side:s.side,
+        step:`STEP ${i+1} OF ${steps.length}`, back:i>0, next:true, nextLabel:s.nextLabel });
+      TUT._last();
+    };
+    $('#tutback').onclick = ()=>{ if (i>0){ i--; draw(); } };
+    $('#tutnext').onclick = ()=>{ i++; if (i>=steps.length){ $('#tutnext').onclick=null; $('#tutback').onclick=null; resolve(); } else draw(); };
+    draw();
+  });
+}
+
+/* A non-blocking caption for a hands-on beat. Returns a closer. */
+function tutHint(title, html, target, side, mask){
+  TUT._last = ()=>tutShow({ eyebrow:'Your move', title, html, target, side, mask,
+                            step:'', back:false, next:false });
+  TUT._last();
+  return ()=>{ tutHideBubble(); tutMaskOff(); TUT._last=null; };
+}
+
+/* A centered caption with one button. Used at act boundaries. */
+function tutModal(title, html, btn){
+  return new Promise(resolve=>{
+    TUT._last = ()=>tutShow({ title, html, target:null, step:'', back:false, next:true, nextLabel:btn||'Continue' });
+    TUT._last();
+    $('#tutnext').onclick = ()=>{ $('#tutnext').onclick=null; resolve(); };
+  });
+}
+
+/* ---------------- waiting on the real game ---------------- */
+function tutWait(pred){
+  return new Promise((resolve, reject)=>{
+    const t = setInterval(()=>{
+      if (TUT._abort){ clearInterval(t); reject(new Error('tutorial closed')); return; }
+      let ok=false; try{ ok = pred(); }catch(e){}
+      if (ok){ clearInterval(t); resolve(); }
+    }, 90);
+  });
+}
+const tutDialog = title => (UI._dres && $('#dtitle').textContent === title);
+const tutSleep  = ms => new Promise(r=>setTimeout(r, ms));
+
+/* ---------------- prompt narrowing ---------------- */
+const TUT_ORIG = {};
+function tutPatchPrompts(){
+  TUT_ORIG.seatPrompt  = UI.seatPrompt;
+  TUT_ORIG.callPrompt  = UI.callPrompt;
+  TUT_ORIG.franceFavor = UI.franceFavor;
+  TUT_ORIG.reveal      = UI.reveal;
+
+  UI.seatPrompt = async function(p, path, opts){
+    const g = TUT.guide && TUT.guide.seat;
+    const x = g && opts.find(o=>o.t===g);
+    if (!x) return TUT_ORIG.seatPrompt.call(this, p, path, opts);
+    return await this.choose('SEAT A CARDINAL',
+      `${PATHS[path].name} may seat one Cardinal. Seating in <b>${TERRS[g].name}</b> makes ${cardsIn(g)+1} there.`,
+      [{label:`Seat in ${TERRS[g].name}`, sub:`${x.cost}ƒ · ${cardsIn(g)} there now`, value:g}],
+      [{t:g, value:g}]);
+  };
+  UI.callPrompt = async function(p, path, callable){
+    const g = TUT.guide && TUT.guide.call;
+    if (!g || !callable.includes(g)) return TUT_ORIG.callPrompt.call(this, p, path, callable);
+    return await this.choose('A QUORUM STANDS',
+      `${TERRS[g].name} holds ${cardsIn(g)} Cardinals, the quorum. Calling ends the game and counts the Influence of every bank that supports ${TERRS[g].name}.`,
+      [{label:`CALL THE CONCLAVE in ${TERRS[g].name}`, sub:'they support you', value:g}],
+      [{t:g, value:g}]);
+  };
+  UI.franceFavor = async function(p){
+    const g = TUT.guide && TUT.guide.france;
+    if (!g) return TUT_ORIG.franceFavor.call(this, p);
+    return await this.choose('THE FRENCH COURT',
+      'France deals in Influence. Reading your own card is the only way to learn the number your rivals have seen all along.',
+      [{label:'Read your own Influence', sub:'in private', value:'peek'}]);
+  };
+  UI.reveal = function(winner, t, caller, kind, rows){
+    TUT_ORIG.reveal.call(this, winner, t, caller, kind, rows);
+    if (!TUT.act3) return;
+    const share = rows.filter(r=>r.backs && r.p!==winner).map(r=>r.p);
+    const high  = rows.slice().sort((a,b)=>(b.p.influence||0)-(a.p.influence||0))
+                      .find(r=>!r.backs);
+    $('#revsub').innerHTML =
+      `You won because <b>${TERRS[t].name}</b> was the city called and ${TERRS[t].name} supports you. `
+      + `Among the banks that support the called city, the highest Influence takes the Treasury.`
+      + (share.length ? ` <b>${share[0].name}</b> supported ${TERRS[t].name} too, but held ${share[0].influence} against your ${winner.influence}. Had that number been higher than yours, ${share[0].name} would be Pope's banker instead.` : '')
+      + (high ? ` <b>${high.p.name}</b> held ${high.p.influence}, the highest at the table, but supported another city, so it counted for nothing.` : '')
+      + (()=>{ const others = (winner.supports||[]).filter(s=>s!==t);
+           if (!others.length) return '';
+           const o = others[0];
+           const up = rows.filter(r=>r.p!==winner && r.p.supports.includes(o))
+                          .sort((a,b)=>(b.p.influence||0)-(a.p.influence||0))[0];
+           return ` You also held <b>${TERRS[o].name}</b>. A bank may back as many cities as it can buy cards for, and each one is a separate candidacy waiting on a different Conclave.`
+             + (up && (up.p.influence||0) > (winner.influence||0)
+                ? ` It is as well that ${TERRS[o].name} was not the city called: <b>${up.p.name}</b> backs it with a ${up.p.influence}, and that beats your ${winner.influence}.`
+                : ''); })()
+      + ` In a real game you would not have known your own ${winner.influence}. Your rivals would.`;
+    const md = G.mode;
+    $('#again').textContent = 'Continue to free practice';
+    $('#again').onclick = ()=>tutPractice(md);
+  };
+}
+function tutRestorePrompts(){
+  for (const k in TUT_ORIG) if (TUT_ORIG[k]) UI[k] = TUT_ORIG[k];
+}
+
+/* ---------------- staging helpers ---------------- */
+function tutSeed(counts){
+  for (const t of terrList()) G.terr[t] = [];
+  for (const t in counts) for (let i=0;i<counts[t];i++) G.terr[t].push({arr:++G.arrSeq});
+  G.cardinals = CARDINAL_SUPPLY - Object.values(counts).reduce((a,b)=>a+b,0);
+}
+function tutBoot(n, mode){
+  MY_SEAT = 0;
+  newGame({players:n, mode});
+  G.active = 0;
+  for (const p of G.players){ p.hand = []; p.mp = 0; }
+  fillOverlays();
+}
+
+/* ============================================================
+   THE CONCLAVE — the base game
+   ============================================================ */
+async function tutConclave(){
+  const me = G.players[0];
+
+  /* ---- staging: nothing is said about the board until the board is true ---- */
+  tutSeed({genoa:2, milan:3, venice:1, naples:1});
+  me.influence = 5; me.knowsOwnInfluence = false; me.supports = ['milan']; me.purse = 8;
+  G.players[1].influence = 3; G.players[1].supports = ['milan'];
+  G.players[2].influence = 9; G.players[2].supports = ['venice'];
+  G.players[3].influence = 7; G.players[3].supports = ['naples'];
+  me.bankers[0].loc = {path:'france', step:3};
+  me.mp = 3;
+  TUT.freeze();
+  UI.render();
+
+  /* ---- ACT ONE: what is on the table ---- */
+  await tutSeg([
+    { title:'The Conclave',
+      html:`<p>This is the base game. I will name each part of the board, hand you a turn to try, then walk you through a winning move.</p>
+            <p>Nothing here is scored. The board stays live behind me: drag this box aside by its title, or collapse it out of the way.</p>`,
+      target:null, nextLabel:'Begin' },
+    { title:'The three roads',
+      html:`<p><b>France</b>, <b>Spain</b>, and <b>the Empire</b>. Each road is a line of numbered steps.</p>
+            <p>Moving a Banker onto a road's <b>last</b> step completes that road at once, and a completion is where everything in this game happens.</p>`,
+      target:'#boardwrap', side:'right' },
+    { title:'The four cities',
+      html:`<p><b>Genoa, Milan, Venice, Naples.</b> The red hats beside a city are its <b>Cardinals</b>.</p>
+            <p>A city holding <b>${G.quorum}</b> Cardinals is at <b>quorum</b>: a Conclave may be called there. At <b>${G.force}</b> the doors force open on their own.</p>`,
+      target:'#boardwrap', side:'right' },
+    { title:'The Cardinals panel',
+      html:`<p>The running count, city by city, so you do not have to read hats off the map.</p>`,
+      target:'#terrpanel' },
+    { title:'Your Influence',
+      html:`<p>A single card, <b>1</b> to <b>9</b>. It is your standing, and it decides who wins a Conclave.</p>
+            <p>It faces away from you. It reads <b>?</b> on your card and the real number sits in the roster for every rival to read. You can learn it, but only by spending a favor on it.</p>`,
+      target:'#handrow' },
+    { title:'Your Support',
+      html:`<p>A Support card names <b>one city</b>. Yours names <b>${TERRS[me.supports[0]].name}</b>.</p>
+            <p>You can only win a Conclave held in a city that supports you. Which cities support which bank is secret.</p>`,
+      target:'#handrow' },
+    { title:'The roster',
+      html:`<p>For every rival you see their <b>Influence</b> and <b>how many</b> Support cards they hold, never which cities.</p>
+            <p>Your own row shows <b>?</b>. Everyone else's shows a number.</p>`,
+      target:'#players' },
+    { title:'Your Bankers',
+      html:`<p>Two Bankers and <b>3 movement points</b> a turn. One point moves one Banker one step.</p>
+            <p>Banker 1 already stands on step 3 of the road to France. Three more steps finishes it.</p>`,
+      target:'#bankerui', nextLabel:'Try it' },
+  ]);
+
+  /* ---- ACT TWO: a completion, played by hand ---- */
+  TUT.onlyBanker = 0;
+  TUT.lock = {bi:0, path:'france', step:6};
+  TUT.guide = {seat:'milan', france:'peek'};   // set before the move: the prompts open inside it
+  let close = tutHint('Move your Banker',
+    `<p>Click <b>BANKER 1</b>, lit gold below. The steps you can reach will light up on the map.</p>
+     <p>Then click step <b>6</b> on the road to France. Three steps, three points, and the road completes.</p>`,
+    '#bankerui', 'bottom', false);
+  await tutWait(()=>tutDialog('SEAT A CARDINAL'));
+  close();
+
+  TUT.lock = null; TUT.onlyBanker = -1;
+  close = tutHint('Seat a Cardinal',
+    `<p>The road paid you <b>4ƒ</b>. Now it offers a Cardinal.</p>
+     <p>France seats only in <b>Genoa</b> or <b>Milan</b>. The price rises as a city fills, though it never passes <b>6ƒ</b>. Milan is the city that supports you, so put the hat there.</p>`,
+    '#dialog', 'right');
+  await tutWait(()=>tutDialog('THE FRENCH COURT'));
+  close();
+
+  close = tutHint("The road's favor",
+    `<p>Last comes the favor, and each road offers a different one.</p>
+     <p>France deals in Influence: read your own, draw a new Influence, or swap cards with a rival. Read yours.</p>`,
+    '#dialog', 'right');
+  await tutWait(()=>me.bankers[0].done);
+  close();
+  TUT.guide = null; TUT.freeze(); UI.render();
+
+  await tutSeg([
+    { title:'You have read your card',
+      html:`<p>Your Influence is <b>${me.influence}</b>. Your card and your row in the roster now show the number instead of a <b>?</b>.</p>
+            <p>The card itself has not turned around. It reads <b>${me.influence}</b> to your rivals exactly as it did a moment ago, and it will keep reading ${me.influence} to them. Only what <i>you</i> know has changed.</p>`,
+      target:'#handrow' },
+    { title:'A completion, in order',
+      html:`<p>Every road runs the same four beats:</p>
+            <ul><li><b>1.</b> Collect the road's pay</li>
+                <li><b>2.</b> Seat a Cardinal from that road's list, if you pay for it</li>
+                <li><b>3.</b> Take the road's favor</li>
+                <li><b>4.</b> Or instead of the favor, <b>call the Conclave</b> in any city at quorum</li></ul>
+            <p>Then the Banker goes home and is finished for the turn.</p>`,
+      target:'#bankerui' },
+    { title:'What each road pays',
+      html:`<ul><li><b>France</b> · 6 steps · 4ƒ · seats in Genoa or Milan · Influence favors</li>
+                <li><b>Spain</b> · 6 steps · 4ƒ · seats in Naples or Venice · Support favors</li>
+                <li><b>The Empire</b> · 7 steps · 6ƒ · seats <b>anywhere</b> · moves or removes a Cardinal</li></ul>`,
+      target:'#boardwrap', side:'right', nextLabel:'Watch the Empire' },
+  ]);
+
+  /* ---- ACT THREE: the Empire's favor, done live on the real board ---- */
+  await tutSeg([
+    { title:"The Empire's favor",
+      html:()=>`<p>France and Spain change <b>cards</b>. The Empire changes the <b>board</b>.</p>
+            <p>Watch Genoa and Milan. Genoa holds <b>${cardsIn('genoa')}</b> Cardinals, Milan holds <b>${cardsIn('milan')}</b>.</p>`,
+      target:'#boardwrap', side:'right', nextLabel:'Move a Cardinal' },
+    { title:'A Cardinal walks',
+      onShow:()=>{ if (!TUT._moved && G.terr.genoa.length){ G.terr.milan.push(G.terr.genoa.pop()); TUT._moved = true; UI.render(); } },
+      html:()=>`<p>One hat left Genoa and joined Milan. Genoa now holds <b>${cardsIn('genoa')}</b>, Milan <b>${cardsIn('milan')}</b>.</p>
+            <p>The Empire can also send a Cardinal home to the Curia instead. This is how a city is pushed toward quorum, or pulled back from it, without seating anything new.</p>`,
+      target:'#boardwrap', side:'right', nextLabel:'Patronage' },
+  ]);
+
+  /* ---- ACT FOUR: Patronage ---- */
+  await tutSeg([
+    { title:'Patronage',
+      html:`<p>One purchase per turn, from anywhere on the board in this game.</p>
+            <p>It sells two kinds of thing: <b>Holdings</b>, which you keep for the rest of the game, and <b>Schemes</b>, which are one-use cards you hold in hand.</p>`,
+      target:'#shopbtn' },
+    { title:'What is on offer',
+      onShow:()=>{ fillBanco(); $('#banco').style.display='flex'; },
+      html:`<p><b>Letters of Credit 3ƒ</b> makes your Cardinals cost 1ƒ less. <b>Exchange House 4ƒ</b> pays 1ƒ extra on every completion. <b>Authority 5ƒ</b> adds 1 to your Influence, publicly, and stays with you through any swap. <b>Courier Network 6ƒ</b> gives a fourth movement point.</p>
+            <p>The three Schemes are <b>Scandal 3ƒ</b> (remove a Cardinal), <b>Elevate 4ƒ</b> (add one), and <b>Bribe 5ƒ</b> (carry one from city to city).</p>`,
+      target:'#banco', side:'left' },
+    { title:'When a Scheme may be played',
+      onShow:()=>{ $('#banco').style.display='none'; },
+      html:`<p>On your own turn, or the moment any Cardinal is seated, moved, or removed by anybody. That second window is what makes Scandal dangerous.</p>`,
+      target:'#handrow', nextLabel:'The Conclave' },
+  ]);
+
+  /* ---- ACT FIVE: the Call, and a Call that breaks ---- */
+  tutSeed({genoa:1, milan:G.quorum, venice:1, naples:1});
+  UI.render();
+  await tutSeg([
+    { title:'A quorum stands',
+      html:`<p>Milan now holds <b>${G.quorum}</b> Cardinals. The board marks it <b>QUORUM</b>.</p>
+            <p>From here, any Banker who completes a road may spend that completion's favor on a <b>Call</b> instead.</p>`,
+      target:'#boardwrap', side:'right', nextLabel:'Call it' },
+    { title:'A Call is not the count',
+      html:`<p>Between the Call and the ballots there is one window, and every player holding a scheme may spend it. <b>Scandal</b> takes a Cardinal out of the called city. <b>Bribe</b> carries one away to another city, which does the same damage.</p>
+            <p>If the count falls below <b>${G.quorum}</b>, the Conclave never happens.</p>`,
+      target:'#terrpanel', nextLabel:'Break it' },
+    { title:'The Call fails',
+      onShow:()=>{ if (cardsIn('milan')>=G.quorum){ G.terr.milan.pop(); G.cardinals++; UI.render(); } },
+      html:`<p>Milan has fallen to <b>${G.quorum-1}</b>. The Call is spent, the caller's favor is gone, and play carries on.</p>
+            <p>So a Call is a bet: you are betting nobody at the table is holding the card that unmakes it.</p>`,
+      target:'#terrpanel' },
+    { title:'And if it holds',
+      html:`<p>The city's Cardinals count. Every bank holding that city's <b>Support</b> is in the running, and among them the <b>highest Influence</b> wins the Papal Treasury.</p>
+            <p>The caller has no advantage. Calling a city that supports a rival more strongly than it supports you hands them the game.</p>`,
+      target:'#players', nextLabel:'Your winning turn' },
+  ]);
+
+  /* ---- ACT SIX: the guided win ---- */
+  await tutGuidedWin();
+}
+
+/* ---------------- the stacked table ---------------- */
+async function tutGuidedWin(){
+  tutBoot(4, 'base');
+  const [me, r1, r2, r3] = G.players;
+  tutSeed({genoa:2, milan:G.quorum-1, venice:3, naples:1});
+  me.influence = 5;  me.knowsOwnInfluence = true;  me.supports = ['milan'];  me.purse = 12;
+  r1.influence = 3;  r1.supports = ['milan'];
+  r2.influence = 9;  r2.supports = ['venice'];
+  r3.influence = 7;  r3.supports = ['naples'];
+  me.bankers[0].loc = {path:'hre', step:6};
+  me.bankers[1].done = true;
+  me.mp = 3;
+  TUT.noReact = true;
+  TUT.freeze();
+  UI.render();
+
+  await tutModal('One move from the Treasury',
+    `<p>The table has been set to make one lesson visible. Your Influence is shown to you here, which it never would be in a real game.</p>
+     <ul><li><b>Milan</b> holds <b>${G.quorum-1}</b> Cardinals, one short of quorum, and Milan supports <b>you</b>.</li>
+         <li><b>${r1.name}</b> supports Milan too, with a <b>3</b>. You hold a <b>5</b>.</li>
+         <li><b>${r2.name}</b> holds a <b>9</b>, the highest at the table, but supports Venice.</li>
+         <li>Your Banker stands on step 6 of the Empire's road. One step completes it, and the Empire seats a Cardinal <b>anywhere</b>.</li></ul>
+     <p>Complete the road, seat the sixth Cardinal in Milan, then call the Conclave there.</p>`,
+    'Begin your winning turn');
+
+  TUT.onlyBanker = 0;
+  TUT.lock = {bi:0, path:'hre', step:7};
+  TUT.guide = {seat:'milan', call:'milan'};   // both prompts open inside this completion
+  TUT.act3 = true;
+  let close = tutHint('Finish the road',
+    `<p>Click <b>BANKER 1</b>, lit gold below, then click the glowing step <b>7</b> on the Empire's road.</p>`,
+    '#bankerui', 'bottom', false);
+  await tutWait(()=>tutDialog('SEAT A CARDINAL'));
+  close();
+
+  TUT.lock = null; TUT.onlyBanker = -1;
+  close = tutHint('Seat the sixth',
+    `<p>The Empire seats anywhere. Put the Cardinal in <b>Milan</b>: that is the ${G.quorum}th, and the quorum.</p>`,
+    '#dialog', 'right');
+  await tutWait(()=>tutDialog('A QUORUM STANDS'));
+  close();
+
+  close = tutHint('Call it',
+    `<p>Instead of the Empire's favor, call the Conclave in <b>Milan</b>.</p>`,
+    '#dialog', 'right');
+  await tutWait(()=>G.over);
+  close();
+}
+
+/* ============================================================
+   THE MEDICI BANK — the full game, taught as a delta
+   Everything The Conclave covered is assumed. This teaches only
+   what the fourth road adds.
+   ============================================================ */
+async function tutMediciBank(){
+  const [me, r1, r2, r3] = G.players;
+
+  tutSeed({genoa:2, milan:3, venice:2, naples:1});
+  const OPENING = me.purse;            // whatever a real game deals you, unaltered
+  r1.influence = 3; r1.supports = ['milan'];
+  r2.influence = 9; r2.supports = ['venice'];
+  r3.influence = 7; r3.supports = ['naples'];
+  me.mp = 3;
+  TUT.freeze();
+  UI.render();
+
+  await tutModal('The Medici Bank',
+    `<p>This lesson assumes you have played <b>The Conclave</b>. It covers only what the full game adds:</p>
+     <ul><li>a fourth road, at <b>Rome</b></li>
+         <li>Influence and Support are <b>bought</b>, not dealt</li>
+         <li>the Bank's <b>bond ledger</b></li>
+         <li><b>Patronage</b> gated to Rome's road</li>
+         <li>only a completion at Rome may <b>call the Conclave</b></li></ul>
+     <p>Everything else holds: same four cities, same quorum of <b>${G.quorum}</b>, same roads, and the highest Influence among a called city's supporters still wins. The only change to a completion is that cashing bonds is added in front of it.</p>`,
+    'Begin');
+
+  /* ---- ACT ONE: you start with nothing ---- */
+  await tutSeg([
+    { title:'Your hand is empty',
+      html:`<p>In The Conclave you were dealt an Influence card and a Support card before the first turn.</p>
+            <p>Here you start with neither, and <b>${OPENING}ƒ</b>. Both cards are things you buy.</p>`,
+      target:'#handrow' },
+    { title:'Buying cards',
+      html:`<p><b>Influence · 3ƒ</b>. One only, ever. Dealt facing away, exactly as before.</p>
+            <p><b>Support · 3ƒ</b>. As many as you can afford, each a city drawn in secret. You may hold several at once.</p>
+            <p>Both may be bought at any moment on your own turn, from anywhere on the board.</p>`,
+      target:'#hb-acts', nextLabel:'Buy your Influence' },
+  ]);
+
+  TUT.allow('buyinf');
+  let close = tutHint('Buy your Influence',
+    `<p>Click <b>Influence · 3ƒ</b>.</p><p>You will not see the number. Watch the roster: your rivals will.</p>`,
+    '#hb-acts');
+  await tutWait(()=>me.influence!=null);
+  close();
+  TUT.freeze();
+
+  /* ---- ACT TWO: the fourth road ---- */
+  await tutSeg([
+    { title:'And now you are poor',
+      html:()=>`<p>Your Influence reads <b>?</b> to you and a real number in the roster to everyone else. It cost 3ƒ, and <b>${me.purse}ƒ</b> is what is left.</p>
+            <p>Support costs 3ƒ too, so you cannot buy one yet. That is the opening of every full game: two cards you want, and a purse that covers one. Florins come from finishing roads.</p>`,
+      target:'#handrow' },
+    { title:'A Support card, for the sake of the lesson',
+      onShow:()=>{ if (!me.supports.length){ me.supports.push(drawSupport()); UI.render(); } },
+      html:()=>`<p>I have handed you one rather than make you earn it. It names <b>${TERRS[me.supports[0]].name}</b>, and only you know that.</p>
+            <p>In a real game you would walk a road, collect its pay, and buy this on a later turn.</p>`,
+      target:'#handrow', nextLabel:'The Rome road' },
+    { title:'Rome',
+      html:`<p>A fourth road, <b>7 steps</b>, in the Tyrrhenian below the map's centre.</p>
+            <p>It is the only road through which a Conclave can be called.</p>`,
+      target:'#boardwrap', side:'right' },
+    { title:'What Rome pays',
+      html:`<p>Rome pays <b>1ƒ for every Support card you hold</b>.</p>
+            <p>Cards, not cities: six Support cards pay 6ƒ even if two of them name the same city. With one card, as you have now, Rome pays 1ƒ.</p>`,
+      target:'#boardwrap', side:'right' },
+    { title:'What Rome seats',
+      html:`<p>A Cardinal in <b>any</b> city, for a flat <b>${ROME_SEAT_FEE}ƒ</b>, however full that city already is.</p>
+            <p>On France, Spain and the Empire the price climbs as a city fills, up to a ceiling of 6ƒ. Rome's never moves. That is what you are paying the seven steps for.</p>`,
+      target:'#boardwrap', side:'right', nextLabel:'Patronage' },
+  ]);
+
+  /* ---- ACT THREE: Patronage is gated ---- */
+  TUT.allow('shopbtn');   // let the real gate do the disabling, not the tutorial
+  await tutSeg([
+    { title:'Patronage is gated here',
+      html:`<p>Same shop, same four Holdings and three Schemes, same one purchase per turn.</p>
+            <p>But look at the button: it is dead. No Banker of yours stands on Rome's road, and in the full game that is the condition.</p>`,
+      target:'#shopbtn' },
+    { title:'A Banker reaches the road',
+      onShow:()=>{ if (!me.bankers[0].loc){ me.bankers[0].loc = {path:'rome', step:1}; UI.render(); } },
+      html:`<p>Banker 1 is now on step 1 of Rome's road, and the button is live.</p>
+            <p>Any step of the road will do. Note what standing there does <i>not</i> do: only finishing the road pays you, seats a Cardinal, or lets you Call. A Banker parked on step 1 is a shop, not a candidate, and it cannot turn back. Bankers move forward only, and leave a road only by finishing it.</p>`,
+      target:'#shopbtn', nextLabel:'The Bank' },
+  ]);
+  TUT.freeze();
+
+  /* ---- ACT FOUR: the bond ledger ---- */
+  await tutSeg([
+    { title:"The Bank's ledger",
+      onShow:()=>{ if (me.purse < 6){ me.purse = 6; UI.render(); } },
+      html:`<p>Take it that you have just finished the Empire's road and collected <b>6ƒ</b>. This is one of the places that money can go.</p>
+            <p>Four rows: <b>3ƒ, 4ƒ, 5ƒ, 6ƒ</b>. This panel is the Medici Bank, where florins grow instead of sitting in your purse.</p>`,
+      target:'#montepanel' },
+    { title:'Depositing',
+      onShow:()=>{ while (me.bonds.length<2 && me.purse>=3) depositBond(me); UI.render(); },
+      html:()=>`<p>Two Bonds deposited at <b>3ƒ</b> each. <b>Two is the limit</b>, so the ledger is a queue, not a vault.</p>
+            <p>Your purse is down to <b>${me.purse}ƒ</b>. That money is not spendable while it sits there.</p>`,
+      target:'#montepanel' },
+    { title:'Maturing, and cashing',
+      onShow:()=>{ me.bonds = me.bonds.map(s=>Math.min(s+3,6)); UI.render(); },
+      html:`<p>Each bond climbs one row at the start of your turn and stops at <b>6ƒ</b>, marked <b>MATURED</b>. Three florins in, six out.</p>
+            <p>You cash them only on a <b>completion</b>, and it is the first thing a completion asks. Take everything, or leave them to ride. When some have matured and others are still climbing, you may take just the matured ones.</p>`,
+      target:'#montepanel', nextLabel:'The Call' },
+  ]);
+
+  /* ---- ACT FIVE: only Rome calls ---- */
+  await tutSeg([
+    { title:'Only Rome may call',
+      html:`<p>In The Conclave, any completion could call a Conclave in a city at quorum. In the full game only a completion <b>at Rome</b> may.</p>
+            <p>Nothing else about the Call changes: the Scandal window still opens, and among the banks supporting the called city the highest Influence still takes the Treasury.</p>`,
+      target:'#boardwrap', side:'right' },
+    { title:"Rome's favor, and what calling costs",
+      html:`<p>Rome's favor is the <b>Papal Tithe</b>: one florin out of every rival's purse and into yours.</p>
+            <p>Calling takes the place of that favor. So a Call at Rome costs you the Tithe, exactly as a Call in The Conclave cost you whatever that road was offering.</p>`,
+      target:'#players', nextLabel:'Your winning turn' },
+  ]);
+
+  await tutBankWin();
+}
+
+async function tutBankWin(){
+  tutBoot(4, 'full');
+  const [me, r1, r2, r3] = G.players;
+  tutSeed({genoa:2, milan:G.quorum-1, venice:3, naples:2});
+  me.influence = 5;  me.knowsOwnInfluence = true;  me.supports = ['milan','naples'];  me.purse = 4;
+  me.bonds = [6,5];
+  r1.influence = 3;  r1.supports = ['milan'];
+  r2.influence = 9;  r2.supports = ['venice'];
+  r3.influence = 7;  r3.supports = ['naples','genoa'];
+  me.bankers[0].loc = {path:'rome', step:6};
+  me.bankers[1].done = true;
+  me.mp = 3;
+  TUT.noReact = true;
+  TUT.freeze();
+  UI.render();
+
+  await tutModal('One move from the Treasury',
+    `<p>The table is stacked to make two lessons visible. Your Influence is shown to you here, which it never would be in a real game.</p>
+     <ul><li>You hold <b>two</b> Support cards: <b>Milan</b> and <b>Naples</b>. A bank may hold any number, and every one of them is a live candidacy. Rome pays you 1ƒ per card, so this pair pays 2ƒ.</li>
+         <li><b>Milan</b> holds <b>${G.quorum-1}</b> Cardinals, one short of quorum. <b>${r1.name}</b> supports Milan too, with a <b>3</b> against your <b>5</b>.</li>
+         <li><b>Naples</b> holds only <b>2</b>, nowhere near quorum, and <b>${r3.name}</b> supports it with a <b>7</b>. Useless to you today, dangerous to you later.</li>
+         <li><b>${r2.name}</b> holds a <b>9</b>, the highest at the table, but supports Venice.</li>
+         <li>Two bonds sit on the ledger at <b>6ƒ</b> and <b>5ƒ</b>, and your purse holds only <b>4ƒ</b>.</li>
+         <li>Your Banker stands on step 6 of <b>Rome's</b> road.</li></ul>
+     <p>One step completes it. Cash the bonds, seat the sixth Cardinal in <b>Milan</b> for the flat ${ROME_SEAT_FEE}ƒ, then call the Conclave there. Milan is the card you can win on.</p>`,
+    'Begin your winning turn');
+
+  TUT.onlyBanker = 0;
+  TUT.lock = {bi:0, path:'rome', step:7};
+  TUT.guide = {seat:'milan', call:'milan'};
+  TUT.act3 = true;
+  let close = tutHint('Finish the road',
+    `<p>Click <b>BANKER 1</b>, lit gold below, then click the glowing step <b>7</b> on Rome's road.</p>`,
+    '#bankerui', 'bottom', false);
+  await tutWait(()=>tutDialog('THE MEDICI BANK'));
+  close();
+
+  TUT.lock = null; TUT.onlyBanker = -1;
+  close = tutHint('Cash the bonds',
+    `<p>A completion asks about the ledger first, and a completion is the only moment it ever asks. <b>Cash everything</b>: 11ƒ comes home and the ledger empties.</p>
+     <p>Leaving them to ride would not cost you this turn, since Rome's pay covers the seat on its own. It would cost you the next time you wanted florins and had no completion in reach.</p>`,
+    '#dialog', 'right');
+  await tutWait(()=>tutDialog('SEAT A CARDINAL'));
+  close();
+
+  close = tutHint('Seat the sixth',
+    `<p>Rome seats anywhere for a flat <b>${ROME_SEAT_FEE}ƒ</b>. Put the Cardinal in <b>Milan</b>: that is the ${G.quorum}th, and the quorum.</p>`,
+    '#dialog', 'right');
+  await tutWait(()=>tutDialog('A QUORUM STANDS'));
+  close();
+
+  close = tutHint('Call it',
+    `<p>Instead of the Papal Tithe, call the Conclave in <b>Milan</b>.</p>`,
+    '#dialog', 'right');
+  await tutWait(()=>G.over);
+  close();
+}
+
+/* ---------------- free practice ---------------- */
+function tutPractice(mode){
+  tutRestorePrompts();
+  TUT.act3 = false; TUT.noReact = false; TUT.guide = null; TUT._moved = false;
+  TUT.thaw();
+  TUT.active = false;
+  tutHideBubble(); tutMaskOff();
+  $('#reveal').style.display = 'none';
+  $('#reveal').classList.remove('papam');
+  $('#game').style.opacity = 1;
+  tutBoot(4, mode);
+  $('#tutcontinuetext').innerHTML =
+    `The lesson is over. This is a real game of <b>${mode==='full'?'The Medici Bank':'The Conclave'}</b>, four banks, nothing scripted.`;
+  $('#tutcontinue').style.display = 'flex';
+  UI.render();
+  runGame();
+}
+
+/* ---------------- launch ---------------- */
+async function startTutorial(mode){
+  $('#setup').style.display = 'none';
+  $('#game').style.display  = 'block';
+  $('#beginov').style.display = 'none';
+  TUT.active = true; TUT._abort = false; TUT._dragged = false; TUT._moved = false;
+  tutPatchPrompts();
+  const md = mode || 'base';
+  tutBoot(4, md);
+  try {
+    if (md === 'full') await tutMediciBank();
+    else await tutConclave();
+  } catch(err){
+    if (!TUT._abort){
+      tutMaskOff();
+      tutShow({ title:'The lesson hit a snag',
+        html:`<p>${(err && err.message) || err}</p><p>Quit to the Curia and start again.</p>`,
+        target:null, step:'', back:false, next:false });
+      console.error(err);
+    }
+    TUT.thaw(); TUT.active = false; tutRestorePrompts();
+  }
+}
+
+/* ---------------- wiring ---------------- */
+(function tutWire(){
+  const tb = $('#tutbtn');
+  if (tb) tb.onclick = ()=>startTutorial('base');
+  const tb2 = $('#tutbtn2');
+  if (tb2) tb2.onclick = ()=>startTutorial('full');
+
+  $('#tutmin').onclick = ()=>{
+    $('#tutbubble').style.display = 'none';
+    tutMaskOff();
+    $('#tutpeek').style.display = 'block';
+  };
+  $('#tutpeek').onclick = ()=>{
+    $('#tutpeek').style.display = 'none';
+    if (TUT._last) TUT._last();
+  };
+  $('#tutcontinuebtn').onclick = ()=>{ LEAVING = true; location.reload(); };
+
+  // the bubble can be dragged out of the way by its title
+  let drag = null;
+  const grab = $('#tuttitle');
+  grab.style.cursor = 'move';
+  grab.addEventListener('mousedown', e=>{
+    const b = $('#tutbubble'), r = b.getBoundingClientRect();
+    drag = {dx:e.clientX-r.left, dy:e.clientY-r.top};
+    TUT._dragged = true; e.preventDefault();
+  });
+  window.addEventListener('mousemove', e=>{
+    if (!drag) return;
+    const b = $('#tutbubble');
+    b.style.left = Math.max(4, Math.min(e.clientX-drag.dx, window.innerWidth-b.offsetWidth-4)) + 'px';
+    b.style.top  = Math.max(4, Math.min(e.clientY-drag.dy, window.innerHeight-b.offsetHeight-4)) + 'px';
+  });
+  window.addEventListener('mouseup', ()=>{ drag = null; });
+
+  window.addEventListener('resize', ()=>{ if (TUT.active && TUT._last){ TUT._dragged=false; TUT._last(); } });
+})();
+
+window.TUTORIAL = { start:startTutorial, practice:tutPractice, TUT };
 
 </script>
 </body>
